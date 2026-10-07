@@ -1,0 +1,155 @@
+{
+  "cx_002": {
+    "conversation_id": "ca9d19cd3b124d51872a93305cdb3013",
+    "message": "当前知识库收录：旺季门票约190元、淡季约80元；景点不单独售票，门票与观光车票实行网络实名预约购票。购票和检票需使用本人有效身份证原件，现场不设常规购票窗口；优惠票、免票和旺淡季日期以官方售票页面及当期公告为准。如果你要查询今天是否还有余票或当前限流，需要以实时售票系统和现场公告为准；本知识库不把固定规则当作实时余票结果。",
+    "citations": [
+      {
+        "source_type": "park",
+        "source_id": "jiuzhaigou_scenic_area",
+        "title": "九寨沟风景名胜区",
+        "authority": "official",
+        "updated_at": "2026-09-17T00:00:00+00:00"
+      }
+    ],
+    "intent": "qa",
+    "trace_id": "trace_0d1688bd513a4d9c",
+    "mode": "agent",
+    "degraded": false,
+    "status": "success",
+    "error": null,
+    "latency_ms": 4376,
+    "goal": "门票预约价格检票及余票查询",
+    "plan": {
+      "intent": "qa",
+      "intent_source": "model",
+      "tasks": [],
+      "delegation_rounds": 0
+    },
+    "agent_chain": [],
+    "agents": [],
+    "tool_calls": 0,
+    "steps": 0
+  },
+  "cx_009": {
+    "conversation_id": "67033048666b407496496ce8f9af2648",
+    "message": "雨天栈道可能湿滑，建议穿防滑鞋、放慢速度并扶好栏杆；儿童不要下水、翻越护栏或投喂野生动物。集合点、临时关闭路段和避雨安排以当天现场标识及工作人员指引为准，遇到暴雨应优先暂停游览并前往安全区域。",
+    "citations": [
+      {
+        "source_type": "park",
+        "source_id": "doc_00014",
+        "title": "九寨沟游览安全与文明规定",
+        "authority": "official"
+      }
+    ],
+    "intent": "recommendation",
+    "trace_id": "trace_82ae6d31c5a6477c",
+    "mode": "agent",
+    "degraded": false,
+    "status": "success",
+    "error": null,
+    "latency_ms": 4226,
+    "goal": "询问雨天带娃游览建议及禁止行为",
+    "plan": {
+      "intent": "recommendation",
+      "intent_source": "model",
+      "tasks": [],
+      "delegation_rounds": 0
+    },
+    "agent_chain": [],
+    "agents": [],
+    "tool_calls": 0,
+    "steps": 0
+  },
+  "cx_014": {
+    "conversation_id": "87dcbd42ec774aa2ba1cfab6aab4ed41",
+    "message": "当前知识库收录：旺季门票约190元、淡季约80元；景点不单独售票，门票与观光车票实行网络实名预约购票。购票和检票需使用本人有效身份证原件，现场不设常规购票窗口；优惠票、免票和旺淡季日期以官方售票页面及当期公告为准。如果你要查询今天是否还有余票或当前限流，需要以实时售票系统和现场公告为准；本知识库不把固定规则当作实时余票结果。",
+    "citations": [
+      {
+        "source_type": "park",
+        "source_id": "jiuzhaigou_scenic_area",
+        "title": "九寨沟风景名胜区",
+        "authority": "official",
+        "updated_at": "2026-09-17T00:00:00+00:00"
+      }
+    ],
+    "intent": "qa",
+    "trace_id": "trace_889495bd91ce42ee",
+    "mode": "agent",
+    "degraded": false,
+    "status": "success",
+    "error": null,
+    "latency_ms": 2716,
+    "goal": "询问门票优惠免票候补退改规则",
+    "plan": {
+      "intent": "qa",
+      "intent_source": "model",
+      "tasks": [],
+      "delegation_rounds": 0
+    },
+    "agent_chain": [],
+    "agents": [],
+    "tool_calls": 0,
+    "steps": 0
+  },
+  "cx_016": {
+    "conversation_id": "5d355d6de91a4295a1c7afd4ddb11b5a",
+    "message": "按已收录的观光车参考资料：沟口至树正站约11分钟，树正站至诺日朗中心约16分钟，诺日朗中心至长海站约38分钟。以上是参考车程，不含排队、上下车和现场调度时间；请照顾老人儿童并在站点听从工作人员指引，实际班次以当天公告为准。",
+    "citations": [
+      {
+        "source_type": "route",
+        "source_id": "route_001",
+        "title": "观光车站点参考时间",
+        "authority": "official"
+      }
+    ],
+    "intent": "qa",
+    "trace_id": "trace_214c76213ae84633",
+    "mode": "agent",
+    "degraded": false,
+    "status": "success",
+    "error": null,
+    "latency_ms": 2446,
+    "goal": "询问观光车时间与注意事项",
+    "plan": {
+      "intent": "qa",
+      "intent_source": "model",
+      "tasks": [],
+      "delegation_rounds": 0
+    },
+    "agent_chain": [],
+    "agents": [],
+    "tool_calls": 0,
+    "steps": 0
+  },
+  "cx_030": {
+    "conversation_id": "15d217f145f6430397f0a4144406d646",
+    "message": "当前知识库收录：旺季门票约190元、淡季约80元；景点不单独售票，门票与观光车票实行网络实名预约购票。购票和检票需使用本人有效身份证原件，现场不设常规购票窗口；优惠票、免票和旺淡季日期以官方售票页面及当期公告为准。如果你要查询今天是否还有余票或当前限流，需要以实时售票系统和现场公告为准；本知识库不把固定规则当作实时余票结果。",
+    "citations": [
+      {
+        "source_type": "park",
+        "source_id": "jiuzhaigou_scenic_area",
+        "title": "九寨沟风景名胜区",
+        "authority": "official",
+        "updated_at": "2026-09-17T00:00:00+00:00"
+      }
+    ],
+    "intent": "recommendation",
+    "trace_id": "trace_cbf76fc93bf84184",
+    "mode": "agent",
+    "degraded": false,
+    "status": "success",
+    "error": null,
+    "latency_ms": 6173,
+    "goal": "含路线天气门票，主为游览建议",
+    "plan": {
+      "intent": "recommendation",
+      "intent_source": "model",
+      "tasks": [],
+      "delegation_rounds": 0
+    },
+    "agent_chain": [],
+    "agents": [],
+    "tool_calls": 0,
+    "steps": 0
+  }
+}

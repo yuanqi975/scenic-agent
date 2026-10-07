@@ -1,0 +1,789 @@
+{
+  "conversation_id": "2e389a9cb2cb46f880d08854364fdd83",
+  "message": "根据提供的资料，可引用来源为：route_003、route_007、route_009、jiuzhaigou_operational_faq_addendum、attr_028、五花海、大小金铃海、孔雀河道、珍珠滩、珍珠滩瀑布。",
+  "citations": [
+    {
+      "source_type": "route",
+      "source_id": "route_003",
+      "document_id": "doc_00144",
+      "title": "route_003",
+      "authority": "official",
+      "retrieval": "dense+sparse",
+      "knowledge_version": "v2.0"
+    },
+    {
+      "source_type": "route",
+      "source_id": "route_007",
+      "document_id": "doc_00148",
+      "title": "route_007",
+      "authority": "official",
+      "retrieval": "dense+sparse",
+      "knowledge_version": "v2.0"
+    },
+    {
+      "source_type": "route",
+      "source_id": "route_009",
+      "document_id": "doc_00150",
+      "title": "route_009",
+      "authority": "official",
+      "retrieval": "dense+sparse",
+      "knowledge_version": "v2.0"
+    },
+    {
+      "source_type": "park",
+      "source_id": "jiuzhaigou_operational_faq_addendum",
+      "document_id": "doc_operational_faq_addendum",
+      "title": "jiuzhaigou_operational_faq_addendum",
+      "authority": "official",
+      "retrieval": "dense+sparse",
+      "knowledge_version": null
+    },
+    {
+      "source_type": "attraction",
+      "source_id": "attr_028",
+      "document_id": "doc_00080",
+      "title": "attr_028",
+      "authority": "official",
+      "retrieval": "dense+entity+sparse",
+      "knowledge_version": "v2.0"
+    },
+    {
+      "source_type": "attraction",
+      "source_id": "attr_021",
+      "title": "五花海",
+      "authority": "official"
+    },
+    {
+      "source_type": "attraction",
+      "source_id": "attr_019",
+      "title": "大小金铃海",
+      "authority": "official"
+    },
+    {
+      "source_type": "attraction",
+      "source_id": "attr_020",
+      "title": "孔雀河道",
+      "authority": "official"
+    },
+    {
+      "source_type": "attraction",
+      "source_id": "attr_017",
+      "title": "珍珠滩",
+      "authority": "official"
+    },
+    {
+      "source_type": "attraction",
+      "source_id": "attr_018",
+      "title": "珍珠滩瀑布",
+      "authority": "official"
+    },
+    {
+      "source_type": "attraction",
+      "source_id": "attr_016",
+      "title": "镜海",
+      "authority": "official"
+    },
+    {
+      "source_type": "attraction",
+      "source_id": "attr_015",
+      "title": "诺日朗群海",
+      "authority": "official"
+    },
+    {
+      "source_type": "attraction",
+      "source_id": "attr_014",
+      "title": "诺日朗瀑布",
+      "authority": "official"
+    },
+    {
+      "source_type": "attraction",
+      "source_id": "attr_001",
+      "title": "情人滩",
+      "authority": "official"
+    },
+    {
+      "source_type": "attraction",
+      "source_id": "attr_002",
+      "title": "犀牛海",
+      "authority": "official"
+    }
+  ],
+  "intent": "recommendation",
+  "trace_id": "trace_f85921b64f084551",
+  "mode": "agent",
+  "degraded": false,
+  "status": "success",
+  "error": null,
+  "latency_ms": 61114,
+  "goal": "为带老人的游客在4小时内确定五花海、珍珠滩、原始森林的优先级，并给出交通与休息安排",
+  "plan": {
+    "intent": "recommendation",
+    "intent_source": "model",
+    "tasks": [],
+    "delegation_rounds": 3
+  },
+  "agent_chain": [
+    {
+      "agent": "knowledge_agent",
+      "status": "success",
+      "iterations": 2,
+      "tool_calls": 4,
+      "latency_ms": 9260
+    },
+    {
+      "agent": "realtime_agent",
+      "status": "success",
+      "iterations": 2,
+      "tool_calls": 1,
+      "latency_ms": 2342
+    },
+    {
+      "agent": "route_agent",
+      "status": "success",
+      "iterations": 3,
+      "tool_calls": 2,
+      "latency_ms": 6296
+    },
+    {
+      "agent": "response_agent",
+      "status": "success",
+      "iterations": 1,
+      "tool_calls": 0,
+      "latency_ms": 21896
+    }
+  ],
+  "agents": [
+    {
+      "agent": "knowledge_agent",
+      "run_id": "run_ef1847e2fc8a4cd0",
+      "instruction": "查询九寨沟五花海、珍珠滩、原始森林三处景点的游览价值、步行距离与海拔爬升情况、观光车（含原始森林线路）的乘车点与发车间隔、景区内休息点/餐饮/卫生间分布，以及带老人游览的常规规定（如观光车是否可全程代步、栈道是否适合老人）",
+      "answer": "已确认开放的相关点位：五花海、大小金铃海、孔雀河道、长海。\n已确认开放的相关点位：大小金铃海、珍珠滩、珍珠滩瀑布。\n已确认开放的相关点位：五彩池、剑崖悬泉、原始森林、长海。\n观光车线路：沟口站至原始森林站。观光车线路：树正站至原始森林站。\n以上信息来自当前景区知识库，请以现场公告为准。",
+      "status": "success",
+      "iterations": 2,
+      "tool_calls": 4,
+      "citations": [
+        {
+          "source_type": "route",
+          "source_id": "route_003",
+          "document_id": "doc_00144",
+          "title": "route_003",
+          "authority": "official",
+          "retrieval": "dense+sparse",
+          "knowledge_version": "v2.0"
+        },
+        {
+          "source_type": "route",
+          "source_id": "route_007",
+          "document_id": "doc_00148",
+          "title": "route_007",
+          "authority": "official",
+          "retrieval": "dense+sparse",
+          "knowledge_version": "v2.0"
+        },
+        {
+          "source_type": "route",
+          "source_id": "route_009",
+          "document_id": "doc_00150",
+          "title": "route_009",
+          "authority": "official",
+          "retrieval": "dense+sparse",
+          "knowledge_version": "v2.0"
+        },
+        {
+          "source_type": "park",
+          "source_id": "jiuzhaigou_operational_faq_addendum",
+          "document_id": "doc_operational_faq_addendum",
+          "title": "jiuzhaigou_operational_faq_addendum",
+          "authority": "official",
+          "retrieval": "dense+sparse",
+          "knowledge_version": null
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_028",
+          "document_id": "doc_00080",
+          "title": "attr_028",
+          "authority": "official",
+          "retrieval": "dense+entity+sparse",
+          "knowledge_version": "v2.0"
+        }
+      ],
+      "artifacts": {
+        "evidence_documents": 5
+      },
+      "error": null,
+      "latency_ms": 9260,
+      "source": "agent"
+    },
+    {
+      "agent": "realtime_agent",
+      "run_id": "run_8ab9692760b74a90",
+      "instruction": "查询九寨沟当前及今日天气（是否有雨雪、气温、路面湿滑情况）、实时客流拥挤程度、五花海/珍珠滩/原始森林及对应观光车线路的开放与运行状态、有无临时关闭或设施维护",
+      "answer": "九寨沟景区暂无接入的实时数据源，无法确认当前天气与客流，请以景区现场公告为准（咨询电话 0837-7739753）。\n以上信息来自当前景区知识库，请以现场公告为准。",
+      "status": "success",
+      "iterations": 2,
+      "tool_calls": 1,
+      "citations": [],
+      "artifacts": {
+        "realtime_available": false,
+        "realtime_summary": "九寨沟景区暂无未过期的「带老人只有4小时，优先五花海、珍珠滩还是原始森林？请给出交通和休息安排」数据，请以景区现场公告为准（咨询电话 0837-7739753）。"
+      },
+      "error": null,
+      "latency_ms": 2342,
+      "source": "agent"
+    },
+    {
+      "agent": "route_agent",
+      "run_id": "run_4c235a094eaa4a4b",
+      "instruction": "按4小时总时长、带老人（步行慢、需频繁休息、避免高海拔长距离爬升）为约束，在五花海、珍珠滩、原始森林中给出优先级排序（说明取舍理由），并输出具体时间轴：入园、各段观光车乘车与换乘、游览停留、休息与用餐/卫生间节点、返程，标注每段步行距离与必要设施（观光车、休息点、卫生间），给出备用方案（下雨或客流大时）",
+      "answer": "已确认开放的相关点位：上季节海、下季节海、五彩池、五花海、则查洼寨。\n根据景区资料，按 240 分钟游玩时长可安排：五花海、大小金铃海、孔雀河道、珍珠滩、珍珠滩瀑布、镜海、诺日朗群海、诺日朗瀑布、情人滩、犀牛海，合计约 240 分钟。\n以上信息来自当前景区知识库，请以现场公告为准。",
+      "status": "success",
+      "iterations": 3,
+      "tool_calls": 2,
+      "citations": [
+        {
+          "source_type": "attraction",
+          "source_id": "attr_021",
+          "title": "五花海",
+          "authority": "official"
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_019",
+          "title": "大小金铃海",
+          "authority": "official"
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_020",
+          "title": "孔雀河道",
+          "authority": "official"
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_017",
+          "title": "珍珠滩",
+          "authority": "official"
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_018",
+          "title": "珍珠滩瀑布",
+          "authority": "official"
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_016",
+          "title": "镜海",
+          "authority": "official"
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_015",
+          "title": "诺日朗群海",
+          "authority": "official"
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_014",
+          "title": "诺日朗瀑布",
+          "authority": "official"
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_001",
+          "title": "情人滩",
+          "authority": "official"
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_002",
+          "title": "犀牛海",
+          "authority": "official"
+        }
+      ],
+      "artifacts": {
+        "itinerary": {
+          "duration_minutes": 240,
+          "travel_date": null,
+          "total_minutes": 240,
+          "requested_minutes": 240,
+          "time_shortfall_minutes": 0,
+          "incomplete": false,
+          "transport_notes": "景点之间建议乘观光车；诺日朗中心是三沟换乘枢纽。车程、排队和休息时间未计入游览分钟。",
+          "rest_notes": "考虑同行有老人，路线默认跳过原始森林及日则沟上段远程点；原始森林到下方景点需较长交通与步行衔接，通常不建议老人专程前往。建议观光车为主、短段步行为辅，并在游客服务中心或诺日朗服务中心休息；厕所点位以现场标识为准。",
+          "candidates_considered": 24,
+          "relaxed": false,
+          "weather": "晴",
+          "groups": [
+            "老年游客"
+          ],
+          "preferences": [
+            "森林"
+          ],
+          "difficulty": "轻松",
+          "required_facilities": [],
+          "attractions": [
+            {
+              "attraction_id": "attr_021",
+              "name": "五花海",
+              "valley": "日则沟",
+              "category": "湖泊/海子",
+              "visit_duration_minutes": 40,
+              "difficulty": "轻松",
+              "opening_hours": "旺季 08:00-18:00（08:00-14:00 入园）；淡季 08:30-18:00（08:30-14:00 入园）",
+              "suitable_for": [
+                "普通游客",
+                "摄影爱好者",
+                "亲子家庭"
+              ],
+              "status": "open",
+              "in_standard_tour": true,
+              "seasonal_closure": null
+            },
+            {
+              "attraction_id": "attr_019",
+              "name": "大小金铃海",
+              "valley": "日则沟",
+              "category": "湖泊/海子",
+              "visit_duration_minutes": 10,
+              "difficulty": "轻松",
+              "opening_hours": "旺季 08:00-18:00（08:00-14:00 入园）；淡季 08:30-18:00（08:30-14:00 入园）",
+              "suitable_for": [
+                "普通游客"
+              ],
+              "status": "open",
+              "in_standard_tour": true,
+              "seasonal_closure": null
+            },
+            {
+              "attraction_id": "attr_020",
+              "name": "孔雀河道",
+              "valley": "日则沟",
+              "category": "河道水景",
+              "visit_duration_minutes": 15,
+              "difficulty": "轻松",
+              "opening_hours": "旺季 08:00-18:00（08:00-14:00 入园）；淡季 08:30-18:00（08:30-14:00 入园）",
+              "suitable_for": [
+                "普通游客",
+                "摄影爱好者"
+              ],
+              "status": "open",
+              "in_standard_tour": true,
+              "seasonal_closure": null
+            },
+            {
+              "attraction_id": "attr_017",
+              "name": "珍珠滩",
+              "valley": "日则沟",
+              "category": "滩流",
+              "visit_duration_minutes": 30,
+              "difficulty": "轻松",
+              "opening_hours": "旺季 08:00-18:00（08:00-14:00 入园）；淡季 08:30-18:00（08:30-14:00 入园）",
+              "suitable_for": [
+                "普通游客",
+                "摄影爱好者",
+                "亲子家庭"
+              ],
+              "status": "open",
+              "in_standard_tour": true,
+              "seasonal_closure": null
+            },
+            {
+              "attraction_id": "attr_018",
+              "name": "珍珠滩瀑布",
+              "valley": "日则沟",
+              "category": "瀑布",
+              "visit_duration_minutes": 30,
+              "difficulty": "轻松",
+              "opening_hours": "旺季 08:00-18:00（08:00-14:00 入园）；淡季 08:30-18:00（08:30-14:00 入园）",
+              "suitable_for": [
+                "普通游客",
+                "摄影爱好者"
+              ],
+              "status": "open",
+              "in_standard_tour": true,
+              "seasonal_closure": null
+            },
+            {
+              "attraction_id": "attr_016",
+              "name": "镜海",
+              "valley": "日则沟",
+              "category": "湖泊/海子",
+              "visit_duration_minutes": 10,
+              "difficulty": "轻松",
+              "opening_hours": "旺季 08:00-18:00（08:00-14:00 入园）；淡季 08:30-18:00（08:30-14:00 入园）",
+              "suitable_for": [
+                "普通游客",
+                "摄影爱好者"
+              ],
+              "status": "open",
+              "in_standard_tour": true,
+              "seasonal_closure": null
+            },
+            {
+              "attraction_id": "attr_015",
+              "name": "诺日朗群海",
+              "valley": "日则沟",
+              "category": "湖泊群",
+              "visit_duration_minutes": 10,
+              "difficulty": "轻松",
+              "opening_hours": "旺季 08:00-18:00（08:00-14:00 入园）；淡季 08:30-18:00（08:30-14:00 入园）",
+              "suitable_for": [
+                "普通游客",
+                "摄影爱好者"
+              ],
+              "status": "open",
+              "in_standard_tour": true,
+              "seasonal_closure": null
+            },
+            {
+              "attraction_id": "attr_014",
+              "name": "诺日朗瀑布",
+              "valley": "日则沟",
+              "category": "瀑布",
+              "visit_duration_minutes": 40,
+              "difficulty": "轻松",
+              "opening_hours": "旺季 08:00-18:00（08:00-14:00 入园）；淡季 08:30-18:00（08:30-14:00 入园）",
+              "suitable_for": [
+                "普通游客",
+                "摄影爱好者",
+                "亲子家庭"
+              ],
+              "status": "open",
+              "in_standard_tour": true,
+              "seasonal_closure": null
+            },
+            {
+              "attraction_id": "attr_001",
+              "name": "情人滩",
+              "valley": "树正沟",
+              "category": "滩流",
+              "visit_duration_minutes": 15,
+              "difficulty": "轻松",
+              "opening_hours": "旺季 08:00-18:00（08:00-14:00 入园）；淡季 08:30-18:00（08:30-14:00 入园）",
+              "suitable_for": [
+                "普通游客",
+                "亲子家庭"
+              ],
+              "status": "open",
+              "in_standard_tour": true,
+              "seasonal_closure": null
+            },
+            {
+              "attraction_id": "attr_002",
+              "name": "犀牛海",
+              "valley": "树正沟",
+              "category": "湖泊/海子",
+              "visit_duration_minutes": 10,
+              "difficulty": "轻松",
+              "opening_hours": "旺季 08:00-18:00（08:00-14:00 入园）；淡季 08:30-18:00（08:30-14:00 入园）",
+              "suitable_for": [
+                "普通游客",
+                "亲子家庭",
+                "老年游客"
+              ],
+              "status": "open",
+              "in_standard_tour": true,
+              "seasonal_closure": null
+            }
+          ],
+          "route_segments": [
+            {
+              "route_id": "route_031",
+              "from": "五花海",
+              "to": "大小金铃海",
+              "route_type": "步行栈道",
+              "estimated_minutes": 5,
+              "distance_meters": 145,
+              "difficulty": "轻松",
+              "accessible": false
+            },
+            {
+              "route_id": "route_032",
+              "from": "大小金铃海",
+              "to": "孔雀河道",
+              "route_type": "步行栈道",
+              "estimated_minutes": 5,
+              "distance_meters": 145,
+              "difficulty": "轻松",
+              "accessible": false
+            },
+            {
+              "route_id": "route_033",
+              "from": "孔雀河道",
+              "to": "珍珠滩",
+              "route_type": "步行栈道",
+              "estimated_minutes": 10,
+              "distance_meters": 482,
+              "difficulty": "轻松",
+              "accessible": false
+            },
+            {
+              "route_id": "route_034",
+              "from": "珍珠滩",
+              "to": "珍珠滩瀑布",
+              "route_type": "步行栈道",
+              "estimated_minutes": 5,
+              "distance_meters": 222,
+              "difficulty": "轻松",
+              "accessible": false
+            },
+            {
+              "route_id": "route_035",
+              "from": "珍珠滩瀑布",
+              "to": "镜海",
+              "route_type": "步行栈道",
+              "estimated_minutes": 14,
+              "distance_meters": 723,
+              "difficulty": "中等",
+              "accessible": false
+            },
+            {
+              "route_id": "route_036",
+              "from": "镜海",
+              "to": "诺日朗群海",
+              "route_type": "步行栈道",
+              "estimated_minutes": 10,
+              "distance_meters": 482,
+              "difficulty": "轻松",
+              "accessible": false
+            },
+            {
+              "route_id": "route_037",
+              "from": "诺日朗群海",
+              "to": "诺日朗瀑布",
+              "route_type": "步行栈道",
+              "estimated_minutes": 5,
+              "distance_meters": 222,
+              "difficulty": "轻松",
+              "accessible": false
+            },
+            {
+              "route_id": "route_010",
+              "from": "诺日朗瀑布",
+              "to": "情人滩",
+              "route_type": "步行栈道",
+              "estimated_minutes": 46,
+              "distance_meters": 2299,
+              "difficulty": "中等",
+              "accessible": false
+            },
+            {
+              "route_id": "route_011",
+              "from": "情人滩",
+              "to": "犀牛海",
+              "route_type": "步行栈道",
+              "estimated_minutes": 5,
+              "distance_meters": 241,
+              "difficulty": "轻松",
+              "accessible": false
+            },
+            {
+              "route_id": "route_012",
+              "from": "犀牛海",
+              "to": "老虎海",
+              "route_type": "步行栈道",
+              "estimated_minutes": 10,
+              "distance_meters": 525,
+              "difficulty": "轻松",
+              "accessible": false
+            }
+          ],
+          "map_basis": "九寨沟三沟地图顺序：日则沟高处，经诺日朗中心换乘，再到树正沟；则查洼沟作为长海—五彩池支线。",
+          "citations": [
+            {
+              "source_type": "attraction",
+              "source_id": "attr_021",
+              "title": "五花海",
+              "authority": "official"
+            },
+            {
+              "source_type": "attraction",
+              "source_id": "attr_019",
+              "title": "大小金铃海",
+              "authority": "official"
+            },
+            {
+              "source_type": "attraction",
+              "source_id": "attr_020",
+              "title": "孔雀河道",
+              "authority": "official"
+            },
+            {
+              "source_type": "attraction",
+              "source_id": "attr_017",
+              "title": "珍珠滩",
+              "authority": "official"
+            },
+            {
+              "source_type": "attraction",
+              "source_id": "attr_018",
+              "title": "珍珠滩瀑布",
+              "authority": "official"
+            },
+            {
+              "source_type": "attraction",
+              "source_id": "attr_016",
+              "title": "镜海",
+              "authority": "official"
+            },
+            {
+              "source_type": "attraction",
+              "source_id": "attr_015",
+              "title": "诺日朗群海",
+              "authority": "official"
+            },
+            {
+              "source_type": "attraction",
+              "source_id": "attr_014",
+              "title": "诺日朗瀑布",
+              "authority": "official"
+            },
+            {
+              "source_type": "attraction",
+              "source_id": "attr_001",
+              "title": "情人滩",
+              "authority": "official"
+            },
+            {
+              "source_type": "attraction",
+              "source_id": "attr_002",
+              "title": "犀牛海",
+              "authority": "official"
+            }
+          ]
+        }
+      },
+      "error": null,
+      "latency_ms": 6296,
+      "source": "agent"
+    },
+    {
+      "agent": "response_agent",
+      "run_id": "run_e34b0f1881aa49c0",
+      "instruction": "【游客问题】带老人只有4小时，优先五花海、珍珠滩还是原始森林？请给出交通和休息安排\n【各专员结论】\n- 专员 knowledge_agent（success）：已确认开放的相关点位：五花海、大小金铃海、孔雀河道、长海。\n已确认开放的相关点位：大小金铃海、珍珠滩、珍珠滩瀑布。\n已确认开放的相关点位：五彩池、剑崖悬泉、原始森林、长海。\n观光车线路：沟口站至原始森林站。观光车线路：树正站至原始森林站。\n以上信息来自当前景区知识库，请以现场公告为准。\n- 专员 realtime_agent（success）：九寨沟景区暂无接入的实时数据源，无法确认当前天气与客流，请以景区现场公告为准（咨询电话 0837-7739753）。\n以上信息来自当前景区知识库，请以现场公告为准。\n- 专员 route_agent（success）：已确认开放的相关点位：上季节海、下季节海、五彩池、五花海、则查洼寨。\n根据景区资料，按 240 分钟游玩时长可安排：五花海、大小金铃海、孔雀河道、珍珠滩、珍珠滩瀑布、镜海、诺日朗群海、诺日朗瀑布、情人滩、犀牛海，合计约 240 分钟。\n以上信息来自当前景区知识库，请以现场公告为准。\n【可用证据】\n  · [official] route_003\n  · [official] route_007\n  · [official] route_009\n  · [official] 五花海\n  · [official] 大小金铃海\n  · [official] 孔雀河道\n请汇总成一段面向游客的最终回答。",
+      "answer": "我先按约 240 分钟安排：五花海、大小金铃海、孔雀河道、珍珠滩、珍珠滩瀑布、镜海、诺日朗群海、诺日朗瀑布、情人滩、犀牛海，景点游览合计约 240 分钟。\n景点之间建议乘观光车，诺日朗中心可换乘；车程、排队和休息时间未计入游览分钟。考虑同行有老人，路线已跳过原始森林及日则沟上段远程点：原始森林到下方景点需要较长交通与步行衔接，通常不建议老人专程前往。建议观光车为主、短段步行为辅，并按体力预留休息时间。开放情况请以当天公告为准。",
+      "status": "success",
+      "iterations": 1,
+      "tool_calls": 0,
+      "citations": [
+        {
+          "source_type": "route",
+          "source_id": "route_003",
+          "document_id": "doc_00144",
+          "title": "route_003",
+          "authority": "official",
+          "retrieval": "dense+sparse",
+          "knowledge_version": "v2.0"
+        },
+        {
+          "source_type": "route",
+          "source_id": "route_007",
+          "document_id": "doc_00148",
+          "title": "route_007",
+          "authority": "official",
+          "retrieval": "dense+sparse",
+          "knowledge_version": "v2.0"
+        },
+        {
+          "source_type": "route",
+          "source_id": "route_009",
+          "document_id": "doc_00150",
+          "title": "route_009",
+          "authority": "official",
+          "retrieval": "dense+sparse",
+          "knowledge_version": "v2.0"
+        },
+        {
+          "source_type": "park",
+          "source_id": "jiuzhaigou_operational_faq_addendum",
+          "document_id": "doc_operational_faq_addendum",
+          "title": "jiuzhaigou_operational_faq_addendum",
+          "authority": "official",
+          "retrieval": "dense+sparse",
+          "knowledge_version": null
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_028",
+          "document_id": "doc_00080",
+          "title": "attr_028",
+          "authority": "official",
+          "retrieval": "dense+entity+sparse",
+          "knowledge_version": "v2.0"
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_021",
+          "title": "五花海",
+          "authority": "official"
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_019",
+          "title": "大小金铃海",
+          "authority": "official"
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_020",
+          "title": "孔雀河道",
+          "authority": "official"
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_017",
+          "title": "珍珠滩",
+          "authority": "official"
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_018",
+          "title": "珍珠滩瀑布",
+          "authority": "official"
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_016",
+          "title": "镜海",
+          "authority": "official"
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_015",
+          "title": "诺日朗群海",
+          "authority": "official"
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_014",
+          "title": "诺日朗瀑布",
+          "authority": "official"
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_001",
+          "title": "情人滩",
+          "authority": "official"
+        },
+        {
+          "source_type": "attraction",
+          "source_id": "attr_002",
+          "title": "犀牛海",
+          "authority": "official"
+        }
+      ],
+      "artifacts": {
+        "authority_counts": {
+          "official": 15
+        }
+      },
+      "error": null,
+      "latency_ms": 21896,
+      "source": "agent"
+    }
+  ],
+  "tool_calls": 7,
+  "steps": 8
+}

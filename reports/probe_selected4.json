@@ -1,0 +1,169 @@
+{
+  "cx_008": {
+    "conversation_id": "fc9a98ef6ce5482a8b780e9c18164540",
+    "message": "树正瀑布：开放时间：旺季 08:00-18:00（08:00-14:00 入园）；淡季 08:30-18:00（08:30-14:00 入园）。 圆弧状多级跌水、激流中生长的灌木 建议游玩约 20 分钟。",
+    "citations": [
+      {
+        "source_type": "attraction",
+        "source_id": "attr_004",
+        "title": "树正瀑布",
+        "authority": "official",
+        "updated_at": "2026-09-30T00:00:00+00:00"
+      }
+    ],
+    "intent": "qa",
+    "trace_id": "trace_b0ffbc205a9740ca",
+    "mode": "agent",
+    "degraded": false,
+    "status": "success",
+    "error": null,
+    "latency_ms": 1899,
+    "goal": "询问景点特色与开放规定",
+    "plan": {
+      "intent": "qa",
+      "intent_source": "model",
+      "tasks": [],
+      "delegation_rounds": 0
+    },
+    "agent_chain": [],
+    "agents": [],
+    "tool_calls": 0,
+    "steps": 0
+  },
+  "cx_011": {
+    "conversation_id": "86601560f420453cb6275452187cb5bd",
+    "message": "今天余票、当前限流和各沟开放状态属于实时信息，必须查询景区最新官方公告或售票系统，不能用旧文档直接保证；如已到现场，还应以工作人员和现场标识确认。固定的门票预约规则仍可参考知识库。",
+    "citations": [
+      {
+        "source_type": "notice",
+        "source_id": "doc_00021",
+        "title": "实时公告查询边界",
+        "authority": "official"
+      }
+    ],
+    "intent": "realtime",
+    "trace_id": "trace_b4b8afa5e337419b",
+    "mode": "agent",
+    "degraded": false,
+    "status": "success",
+    "error": null,
+    "latency_ms": 2406,
+    "goal": "询问当前限流及日则沟开放状态",
+    "plan": {
+      "intent": "realtime",
+      "intent_source": "model",
+      "tasks": [],
+      "delegation_rounds": 0
+    },
+    "agent_chain": [],
+    "agents": [],
+    "tool_calls": 0,
+    "steps": 0
+  },
+  "cx_020": {
+    "conversation_id": "071ddf19b6f6428bb096735136271f96",
+    "message": "遇到暴雨、雷电或泥石流风险，应先查看最新官方公告并服从现场指引；景区可能临时关闭或调整路线，已预约也不能保证按原路线和时间入园。退改是否自动办理要以售票平台和当期公告为准，系统不能替代官方确认。",
+    "citations": [
+      {
+        "source_type": "notice",
+        "source_id": "doc_00021",
+        "title": "恶劣天气实时处置边界",
+        "authority": "official"
+      }
+    ],
+    "intent": "qa",
+    "trace_id": "trace_13b64128ae294b4b",
+    "mode": "agent",
+    "degraded": false,
+    "status": "success",
+    "error": null,
+    "latency_ms": 4472,
+    "goal": "询问恶劣天气下规定与票务处理",
+    "plan": {
+      "intent": "qa",
+      "intent_source": "model",
+      "tasks": [],
+      "delegation_rounds": 0
+    },
+    "agent_chain": [],
+    "agents": [],
+    "tool_calls": 0,
+    "steps": 0
+  },
+  "cx_023": {
+    "conversation_id": "a2da5dc0ca0a490a8b73f4d1c5cf83d1",
+    "message": "五彩池：海拔约 3010 米。 资料标注适合：普通游客、摄影爱好者；难度为中等。老人同行建议观光车为主、短距离步行并预留休息。\n五花海：海拔约 2462 米。 资料标注适合：普通游客、摄影爱好者、亲子家庭；难度为轻松。老人同行建议观光车为主、短距离步行并预留休息。\n长海：海拔约 3101 米。 资料标注适合：普通游客、摄影爱好者；难度为中等。老人同行建议观光车为主、短距离步行并预留休息。",
+    "citations": [
+      {
+        "source_type": "attraction",
+        "source_id": "attr_032",
+        "title": "五彩池",
+        "authority": "official",
+        "updated_at": "2026-09-30T00:00:00+00:00"
+      },
+      {
+        "source_type": "attraction",
+        "source_id": "attr_021",
+        "title": "五花海",
+        "authority": "official",
+        "updated_at": "2026-09-30T00:00:00+00:00"
+      },
+      {
+        "source_type": "attraction",
+        "source_id": "attr_031",
+        "title": "长海",
+        "authority": "official",
+        "updated_at": "2026-09-30T00:00:00+00:00"
+      }
+    ],
+    "intent": "recommendation",
+    "trace_id": "trace_e13e7666474a49cf",
+    "mode": "agent",
+    "degraded": false,
+    "status": "success",
+    "error": null,
+    "latency_ms": 2383,
+    "goal": "比较景点并求老人游览取舍建议",
+    "plan": {
+      "intent": "recommendation",
+      "intent_source": "model",
+      "tasks": [],
+      "delegation_rounds": 0
+    },
+    "agent_chain": [],
+    "agents": [],
+    "tool_calls": 0,
+    "steps": 0
+  },
+  "cx_025": {
+    "conversation_id": "dce23b3b51c141b692542646f017a3b8",
+    "message": "当前知识库收录：旺季门票约190元、淡季约80元；景点不单独售票，门票与观光车票实行网络实名预约购票。购票和检票需使用本人有效身份证原件，现场不设常规购票窗口；优惠票、免票和旺淡季日期以官方售票页面及当期公告为准。如果你要查询今天是否还有余票或当前限流，需要以实时售票系统和现场公告为准；本知识库不把固定规则当作实时余票结果。如果旧资料出现旺季220元，与当前190元不一致，应以带生效日期的最新官方公告为准；不要把两个数字同时当作现行价格。",
+    "citations": [
+      {
+        "source_type": "park",
+        "source_id": "jiuzhaigou_scenic_area",
+        "title": "九寨沟风景名胜区",
+        "authority": "official",
+        "updated_at": "2026-09-17T00:00:00+00:00"
+      }
+    ],
+    "intent": "qa",
+    "trace_id": "trace_b48bd4a3143f4236",
+    "mode": "agent",
+    "degraded": false,
+    "status": "success",
+    "error": null,
+    "latency_ms": 2849,
+    "goal": "询问门票价格规定",
+    "plan": {
+      "intent": "qa",
+      "intent_source": "model",
+      "tasks": [],
+      "delegation_rounds": 0
+    },
+    "agent_chain": [],
+    "agents": [],
+    "tool_calls": 0,
+    "steps": 0
+  }
+}

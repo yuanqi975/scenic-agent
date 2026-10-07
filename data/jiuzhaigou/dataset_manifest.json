@@ -1,0 +1,50 @@
+{
+  "park_id": "jiuzhaigou_scenic_area",
+  "park_name": "九寨沟风景名胜区",
+  "generated_at": "2026-09-30T00:00:00+00:00",
+  "knowledge_version": "v2.0",
+  "random_seed": 20260917,
+  "facts_dir": "facts/",
+  "data_source_legend": {
+    "official": "来自官方来源（景区官网、政府网站或权威媒体转述的官方口径）",
+    "third_party": "来自可查证的第三方公开资料，非官方发布",
+    "derived": "依据真实数据派生或推算，不是官方发布内容",
+    "derived_simulation": "程序模拟数据，仅用于演示与压测，不代表真实情况"
+  },
+  "counts": {
+    "attractions": 40,
+    "facilities": 37,
+    "routes": 47,
+    "routes_shuttle": 9,
+    "routes_walk": 38,
+    "faqs": 104,
+    "faqs_official": 24,
+    "feedbacks": 3000,
+    "feedback_candidates": 3000,
+    "documents": 292,
+    "documents_by_source_type": {
+      "park": 24,
+      "attraction": 80,
+      "facility": 37,
+      "route": 47,
+      "faq": 104
+    },
+    "notices": 4,
+    "evaluation_base_questions": 121,
+    "evaluation_complex_questions": 5,
+    "evaluation_questions": 121,
+    "sources": 30
+  },
+  "coordinate_policy": "官方从未公布景点、设施与景区四至的经纬度。本数据集所有 latitude/longitude 均为按沟谷走向与官方海拔推算的估算值（精度约 ±0.01°，约 ±1 km），coordinate_source 标记为 estimated，不可用于测绘或导航。",
+  "content_policy": "景点、设施、票价、开放时间、优惠政策、游览规则、FAQ、公告与景区级知识文档均来自公开可查证来源；景点级派生问答、步行栈道距离与时长、难度与适宜人群、评测题、游客反馈均为程序生成并已标记。",
+  "known_gaps": [
+    "官方未公布任何景点与设施的经纬度，坐标为估算值。",
+    "官方未公布景区几何中心坐标与精确四至边界。",
+    "官方未公布卫生间点位清单、行李寄存点位与收费标准、轮椅与婴儿车租用费用。",
+    "官方未公布观光车完整站点名单，本数据集仅收录公开可检索到的站点。",
+    "官方未公布秋季彩林精确起止日期，口径为「十月中下旬」。",
+    "景区救护电话存在 0837-7738818 与 0837-7739309 两个公开口径。",
+    "官网 FAQ 页仍保留旺季门票 220 元的旧口径，本数据集采用现行 190 元。",
+    "临时公告按 effective_from/effective_to 管理，过期公告保留用于审计但不得直接作为当前状态。"
+  ]
+}

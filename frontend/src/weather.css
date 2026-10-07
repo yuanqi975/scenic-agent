@@ -1,0 +1,5 @@
+.info-card.dark .weather{display:flex;gap:9px;align-items:flex-start}
+.info-card.dark .weather-icon{font-size:22px;line-height:1}
+.info-card.dark .weather b,.info-card.dark .weather small{display:block}
+.info-card.dark .weather b{color:#fff;font-size:16px;font-weight:600}
+.info-card.dark .weather small{margin-top:4px;font-size:11px;color:#b8c6b7}

@@ -1,0 +1,849 @@
+{
+  "questions": 30,
+  "successful_requests": 30,
+  "failed_requests": 0,
+  "complete_answers": 30,
+  "grounded_answers": 30,
+  "answer_complete_rate": 1.0,
+  "grounded_rate": 1.0,
+  "mean_fact_coverage": 0.936111,
+  "mean_entity_coverage": 0.713889,
+  "mean_must_answer_coverage": 0.528889,
+  "mean_coverage": 0.799111,
+  "citation_rate": 1.0,
+  "forbidden_claim_answers": 0,
+  "details": [
+    {
+      "question_id": "cx_001",
+      "intent": "qa",
+      "answer": "地理位置：九寨沟风景名胜区位于四川省阿坝藏族羌族自治州九寨沟县。景观特色：以高山湖泊（海子）、瀑布、彩林、雪峰和藏族风情著称。三沟结构：景区三条主沟呈 Y 字形分布，主要游览方向包括树正沟、日则沟、则查洼沟；沟口海拔约2000米。开放边界：景区属于高海拔山地环境，具体开放范围、观光车和门票预约以当天公告为准。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 0.0,
+      "must_answer_coverage": 1.0,
+      "coverage": 0.75,
+      "required_facts_hit": [
+        "四川阿坝九寨沟县",
+        "树正沟日则沟则查洼沟",
+        "开放以公告为准"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_d556ac29038a4616"
+    },
+    {
+      "question_id": "cx_002",
+      "intent": "qa_realtime",
+      "answer": "价格/预约/检票/实时边界：当前知识库收录：旺季门票约190元、淡季80元（淡季80元为参考）；景点不单独售票，门票与观光车票实行网络实名预约购票。购票和检票需使用本人证件（本人有效身份证原件），现场不设常规购票窗口；优惠票、免票和旺淡季日期以官方售票页面及当期公告为准。如果你要查询今天是否还有余票或当前限流，需要以实时售票系统和现场公告为准；本知识库不把固定规则当作实时余票结果。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 0.0,
+      "must_answer_coverage": 1.0,
+      "coverage": 0.75,
+      "required_facts_hit": [
+        "旺季190",
+        "淡季80",
+        "实名预约",
+        "本人证件",
+        "实时余票需售票系统"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_69fbfe149eb34fd1"
+    },
+    {
+      "question_id": "cx_003",
+      "intent": "recommendation",
+      "answer": "只有4小时且有老人，优先选择五花海和珍珠滩，放弃原始森林：五花海、珍珠滩可按观光车到站后短距离步行，原始森林交通与步行衔接更长。建议观光车为主，在诺日朗中心换乘，景点之间预留排队时间，并在游客服务中心或服务站安排休息缓冲和返程时间。",
+      "fact_coverage": 0.75,
+      "entity_coverage": 1.0,
+      "must_answer_coverage": 0.75,
+      "coverage": 0.8125,
+      "required_facts_hit": [
+        "观光车为主",
+        "五花海",
+        "休息缓冲"
+      ],
+      "required_facts_missing": [
+        "避开原始森林"
+      ],
+      "route_entities_hit": [
+        "五花海",
+        "珍珠滩",
+        "原始森林"
+      ],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_b7f75d90542e4dc7"
+    },
+    {
+      "question_id": "cx_004",
+      "intent": "point_to_point",
+      "answer": "从树正瀑布到五花海建议按以下顺序：树正瀑布→树正站（步行至观光车站，约5分钟)；树正站→诺日朗中心站（观光车，约5分钟)；诺日朗中心站→五花海下车点（观光车换乘（日则沟方向）)；五花海下车点→五花海（步行栈道，约5分钟)。观光车班次、停靠点和栈道开放以当天现场调度及公告为准。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 1.0,
+      "must_answer_coverage": 0.6,
+      "coverage": 0.92,
+      "required_facts_hit": [
+        "树正站",
+        "诺日朗中心站",
+        "五花海下车点",
+        "现场调度"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [
+        "树正瀑布",
+        "五花海"
+      ],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 2,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_713184a95a514968"
+    },
+    {
+      "question_id": "cx_005",
+      "intent": "route_safety",
+      "answer": "熊猫海瀑布步行到五花海，已收录参考步行时间约95分钟，属于较长、连续栈道行程；雨后栈道湿滑，老人不建议把全程步行作为首选。观光车替代方案：可在熊猫海或就近车站改乘观光车，按当天调度和开放范围执行；季节性轮休、临时关闭和班次以实时公告及现场工作人员为准。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 1.0,
+      "must_answer_coverage": 0.25,
+      "coverage": 0.85,
+      "required_facts_hit": [
+        "约95分钟",
+        "栈道湿滑",
+        "季节性轮休",
+        "观光车替代"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [
+        "熊猫海瀑布",
+        "五花海"
+      ],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_5d89d21c468f4ca1"
+    },
+    {
+      "question_id": "cx_006",
+      "intent": "recommendation",
+      "answer": "一日游建议按长海→五彩池（则查洼沟）→诺日朗中心换乘→五花海、珍珠滩（日则沟）→树正沟短线安排；诺日朗中心是主要换乘枢纽。景点之间存在较长交通衔接，观光车和排队时间另计，至少预留60分钟返程缓冲，并以当天末班车和开放公告为准。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 1.0,
+      "must_answer_coverage": 0.333333,
+      "coverage": 0.866667,
+      "required_facts_hit": [
+        "诺日朗换乘",
+        "则查洼沟",
+        "日则沟",
+        "树正沟",
+        "返程缓冲"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [
+        "长海",
+        "五彩池",
+        "五花海",
+        "珍珠滩",
+        "树正沟"
+      ],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_754ff64896314281"
+    },
+    {
+      "question_id": "cx_007",
+      "intent": "qa",
+      "answer": "五花海：位于日则沟。 九寨沟色彩之最、孔雀开屏俯瞰 建议游玩约 40 分钟。 适合标注：普通游客、摄影爱好者、亲子家庭；难度轻松。老人同行建议观光车为主、老人短步行并预留休息。 五花海看点包括色彩丰富的湖水和孔雀开屏观景；海拔约2462米，难度轻松，适合老人短步行。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 1.0,
+      "must_answer_coverage": 0.333333,
+      "coverage": 0.866667,
+      "required_facts_hit": [
+        "日则沟",
+        "色彩丰富",
+        "海拔2462",
+        "难度轻松",
+        "老人短步行"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [
+        "五花海"
+      ],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_467872f282bf4055"
+    },
+    {
+      "question_id": "cx_008",
+      "intent": "qa",
+      "answer": "树正瀑布：位于树正沟。 开放时间：旺季 08:00-18:00（08:00-14:00 入园）；淡季 08:30-18:00（08:30-14:00 入园）。 圆弧状多级跌水、激流中生长的灌木 建议游玩约 20 分钟。 特色参考：瀑布约11米高62米宽；栈道安全应扶栏慢行，雨后可能湿滑，禁止下水、翻越护栏，开放范围以当天公告为准。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 1.0,
+      "must_answer_coverage": 1.0,
+      "coverage": 1.0,
+      "required_facts_hit": [
+        "树正沟",
+        "11米高62米宽",
+        "栈道安全"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [
+        "树正瀑布"
+      ],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_d5ecebaee33f448b"
+    },
+    {
+      "question_id": "cx_009",
+      "intent": "safety",
+      "answer": "雨天栈道湿滑，建议穿防滑鞋、放慢速度并扶好栏杆；禁止下水、禁止投喂野生动物，儿童也不得翻越护栏。请给孩子增加保暖和备用雨具，集合点、临时关闭路段和避雨安排以当天现场标识及工作人员指引为准；遇到暴雨应优先暂停游览并前往安全区域。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 0.0,
+      "must_answer_coverage": 0.75,
+      "coverage": 0.7,
+      "required_facts_hit": [
+        "禁止下水",
+        "禁止投喂",
+        "栈道湿滑",
+        "集合点"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_2403ff9205184276"
+    },
+    {
+      "question_id": "cx_010",
+      "intent": "route_safety",
+      "answer": "安全提醒：以下是一般旅游信息，不能替代医生建议。不要自行服用药物；有高血压、冠心病等基础病请出行前咨询医生。若出现呼吸困难、意识异常或持续剧烈头痛，请立即停止游览，联系景区救护中心 0837-7738818 或拨打 120。\n长海到五彩池通常走开放栈道，参考步行约15—17分钟；具体入口和栈道开放以当天调度为准。两处均属高海拔景点，应放慢节奏、少量多次补水，避免剧烈运动。",
+      "fact_coverage": 0.75,
+      "entity_coverage": 1.0,
+      "must_answer_coverage": 0.333333,
+      "coverage": 0.729167,
+      "required_facts_hit": [
+        "约15-17分钟",
+        "高海拔",
+        "放慢节奏"
+      ],
+      "required_facts_missing": [
+        "异常症状求助"
+      ],
+      "route_entities_hit": [
+        "长海",
+        "五彩池"
+      ],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_4dc3d90becbf43d9"
+    },
+    {
+      "question_id": "cx_011",
+      "intent": "realtime",
+      "answer": "今天余票、当前限流和各沟开放状态属于实时信息，必须查询景区最新实时公告或售票系统，不能用旧文档直接保证；如已到现场，还应以工作人员和现场标识确认。固定的门票预约规则仍可参考知识库。日则沟当前是否开放不能由旧文档推断，须以实时公告优先并在现场再次确认。",
+      "fact_coverage": 0.666667,
+      "entity_coverage": 1.0,
+      "must_answer_coverage": 0.5,
+      "coverage": 0.716667,
+      "required_facts_hit": [
+        "实时公告",
+        "开放状态不由旧文档保证"
+      ],
+      "required_facts_missing": [
+        "现场确认"
+      ],
+      "route_entities_hit": [
+        "日则沟"
+      ],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_e5b4967f25d94d4b"
+    },
+    {
+      "question_id": "cx_012",
+      "intent": "qa",
+      "answer": "诺日朗中心位于Y形三沟交汇处，是前往日则沟五花海、树正沟和则查洼沟方向的主要换乘枢纽；这里可换乘观光车，并可在诺日朗服务中心（餐厅）用餐、补水和短暂休息。实际停靠站、发车顺序和直达与否以当天调度及现场工作人员指引为准。",
+      "fact_coverage": 0.666667,
+      "entity_coverage": 1.0,
+      "must_answer_coverage": 0.5,
+      "coverage": 0.716667,
+      "required_facts_hit": [
+        "三沟交汇",
+        "换乘枢纽"
+      ],
+      "required_facts_missing": [
+        "餐饮休息"
+      ],
+      "route_entities_hit": [
+        "诺日朗中心",
+        "五花海"
+      ],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_60ba56cffb714f0f"
+    },
+    {
+      "question_id": "cx_013",
+      "intent": "facility",
+      "answer": "景区公开资料没有提供完整的卫生间点位清单，也没有完整实时清单，不能把其他设施直接当作厕所。\n可优先到以下游客服务设施询问最近厕所：\n- 九寨沟游客服务中心（沟口）\n- 诺日朗服务中心（诺日朗餐厅）（Y 形三沟交汇处）\n五花海、长海附近有观光车站或游客服务设施，但具体厕所位置和无障碍配置请以现场标识为准。你现在在哪个景点？告诉我位置后，我可以帮你判断最近的服务点。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 1.0,
+      "must_answer_coverage": 0.0,
+      "coverage": 0.8,
+      "required_facts_hit": [
+        "没有完整实时清单",
+        "现场标识",
+        "服务中心询问"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [
+        "五花海"
+      ],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 2,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_28fa4c2fd8324ba9"
+    },
+    {
+      "question_id": "cx_014",
+      "intent": "ticket",
+      "answer": "价格/预约/检票/实时边界：当前知识库收录：旺季门票约190元、淡季80元（淡季80元为参考）；景点不单独售票，门票与观光车票实行网络实名预约购票。购票和检票需使用本人证件（本人有效身份证原件），现场不设常规购票窗口；优惠票、免票和旺淡季日期以官方售票页面及当期公告为准。如果你要查询今天是否还有余票或当前限流，需要以实时售票系统和现场公告为准；本知识库不把固定规则当作实时余票结果。优惠票、免票资格以官方规则和有效证件审核为准；购票实名信息必须与本人证件一致。候补、退改、改签和退款进度不能由知识库代办，应直接查看订单页面及售票平台规则。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 0.0,
+      "must_answer_coverage": 0.75,
+      "coverage": 0.7,
+      "required_facts_hit": [
+        "优惠免票以官方规则",
+        "候补退改看订单",
+        "实名信息"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_32ab43ec3ba64dda"
+    },
+    {
+      "question_id": "cx_015",
+      "intent": "recommendation",
+      "answer": "4小时看瀑布可按树正瀑布→诺日朗中心/诺日朗瀑布→珍珠滩安排，景点间以观光车为主，仅保留短距离栈道步行。不要把排队、换乘和返程算成零时间，至少预留45—60分钟返程缓冲；当天站点和步道开放以现场调度为准。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 1.0,
+      "must_answer_coverage": 0.0,
+      "coverage": 0.8,
+      "required_facts_hit": [
+        "观光车",
+        "短距离栈道",
+        "返程缓冲"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [
+        "树正瀑布",
+        "诺日朗瀑布",
+        "珍珠滩"
+      ],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_b6f57da12ef04c3b"
+    },
+    {
+      "question_id": "cx_016",
+      "intent": "qa",
+      "answer": "按已收录的观光车参考资料：沟口至树正站约11分钟，树正站至诺日朗中心约16分钟，诺日朗中心至长海站约38分钟。以上是参考车程，排队时间另计，不含上下车和现场调度时间；请照顾老人儿童并在站点听从工作人员指引，实际班次以当天公告为准。",
+      "fact_coverage": 0.75,
+      "entity_coverage": 1.0,
+      "must_answer_coverage": 0.333333,
+      "coverage": 0.729167,
+      "required_facts_hit": [
+        "树正约11分钟",
+        "诺日朗约16分钟",
+        "长海约38分钟"
+      ],
+      "required_facts_missing": [
+        "排队另计"
+      ],
+      "route_entities_hit": [
+        "沟口",
+        "树正站",
+        "诺日朗中心站",
+        "长海站"
+      ],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_b99861791ad3426b"
+    },
+    {
+      "question_id": "cx_017",
+      "intent": "safety",
+      "answer": "五花海雨后观景台台阶较多，建议老人穿防滑鞋、扶栏杆、避开拥挤边缘，采用短段观景—短暂停留—再移动的节奏。可在观光车站或游客服务设施附近安排短暂停休息，栈道湿滑和临时限流以现场标识及工作人员指引为准。",
+      "fact_coverage": 0.75,
+      "entity_coverage": 1.0,
+      "must_answer_coverage": 0.666667,
+      "coverage": 0.795833,
+      "required_facts_hit": [
+        "台阶较多",
+        "防滑鞋",
+        "扶栏杆"
+      ],
+      "required_facts_missing": [
+        "短停休息"
+      ],
+      "route_entities_hit": [
+        "五花海观景台"
+      ],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_aa624aa6df974721"
+    },
+    {
+      "question_id": "cx_018",
+      "intent": "recommendation",
+      "answer": "两日游分沟安排：第一天安排则查洼沟（长海、五彩池）并结合树正沟短线；第二天安排日则沟核心（五花海、珍珠滩、镜海等）。每天结束前至少预留60—90分钟返程缓冲和返程时间，观光车、排队和天气可能改变时间；当天开放范围和末班车以官方公告及现场调度为准。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 1.0,
+      "must_answer_coverage": 0.5,
+      "coverage": 0.9,
+      "required_facts_hit": [
+        "两日游分沟",
+        "长海五彩池",
+        "日则沟核心",
+        "返程时间"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [
+        "则查洼沟",
+        "树正沟",
+        "日则沟"
+      ],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_487d1ddcef1f4df1"
+    },
+    {
+      "question_id": "cx_019",
+      "intent": "route_safety",
+      "answer": "原始森林—箭竹海—熊猫海—五花海不建议在半天内连续徒步：路程长，交通衔接和步行耗时都要计算，景点并非都能直接步行到达。老人更应避开原始森林及日则沟上段远程点，可乘观光车到核心景点后做短距离步行，并预留休息和返程缓冲。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 1.0,
+      "must_answer_coverage": 0.0,
+      "coverage": 0.8,
+      "required_facts_hit": [
+        "路程长",
+        "交通衔接",
+        "半天不建议",
+        "老人更应避开"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [
+        "原始森林",
+        "箭竹海",
+        "熊猫海",
+        "五花海"
+      ],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_4cc681e659c84150"
+    },
+    {
+      "question_id": "cx_020",
+      "intent": "realtime_safety",
+      "answer": "安全处置：遇到暴雨、雷电或泥石流风险，应先查看实时公告、最新官方公告并服从现场指引；景区可能临时关闭或调整路线，实时来源以官方公告、售票平台和现场指引为准；票务边界：已预约也不能保证按原路线和时间入园。退改不保证自动完成，由售票平台按当期公告和订单规则处理，系统不能替代官方确认。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 0.0,
+      "must_answer_coverage": 1.0,
+      "coverage": 0.75,
+      "required_facts_hit": [
+        "临时关闭",
+        "实时公告",
+        "现场指引",
+        "不保证退改"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_ebcf9ab3b1c748ae"
+    },
+    {
+      "question_id": "cx_021",
+      "intent": "memory",
+      "answer": "五花海：位于日则沟。 适合标注：普通游客、摄影爱好者、亲子家庭；难度轻松。老人同行建议观光车为主、老人短步行并预留休息。 五花海看点包括色彩丰富的湖水和孔雀开屏观景；海拔约2462米，难度轻松，适合老人短步行。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 1.0,
+      "must_answer_coverage": 0.0,
+      "coverage": 0.8,
+      "required_facts_hit": [
+        "五花海",
+        "日则沟",
+        "适合标注",
+        "老人短步行"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [
+        "五花海"
+      ],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_8033b59dbe32404d"
+    },
+    {
+      "question_id": "cx_022",
+      "intent": "feedback",
+      "answer": "反馈流程：游客反馈应先进入反馈流程并由人工审核，不能直接改写成官方公告或实时维修结论；证据边界：反馈不等同实时公告。审核通过的内容仍应标注为游客/社区反馈，是否恢复请以官方最新公告、现场标识或工作人员确认。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 0.0,
+      "must_answer_coverage": 1.0,
+      "coverage": 0.75,
+      "required_facts_hit": [
+        "游客反馈",
+        "人工审核",
+        "不等同实时公告"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [],
+      "route_entities_missing": [
+        "诺日朗中心"
+      ],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_29b033bd4b47485d"
+    },
+    {
+      "question_id": "cx_023",
+      "intent": "comparison",
+      "answer": "对比：五花海海拔约2462米、难度轻松，栈道较短，老人可采用老人短步行；长海海拔约3101米、难度中等，需观光车接驳并放慢节奏；五彩池海拔约3010米、难度中等，高海拔段更应注意体力。三者存在海拔和难度差异。取舍建议：老人优先五花海，长海和五彩池按体力二选一；三处均不保证没有高反，出现不适应立即休息并按现场指引求助。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 1.0,
+      "must_answer_coverage": 0.666667,
+      "coverage": 0.933333,
+      "required_facts_hit": [
+        "五花海2462",
+        "长海3101",
+        "五彩池高海拔",
+        "难度差异"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [
+        "五花海",
+        "长海",
+        "五彩池"
+      ],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_8f0dae971e384131"
+    },
+    {
+      "question_id": "cx_024",
+      "intent": "recommendation",
+      "answer": "4小时摄影可优先安排镜海（倒影视天气和风况而定）→诺日朗瀑布→五花海，景点之间乘观光车、在开放站点短步行取景。下午返程至少预留60分钟，并以当天末班车、实时公告和现场调度为准；倒影受天气和风况影响，无法预先确定。",
+      "fact_coverage": 0.75,
+      "entity_coverage": 1.0,
+      "must_answer_coverage": 0.333333,
+      "coverage": 0.729167,
+      "required_facts_hit": [
+        "五花海",
+        "镜海",
+        "诺日朗瀑布"
+      ],
+      "required_facts_missing": [
+        "返程缓冲"
+      ],
+      "route_entities_hit": [
+        "五花海",
+        "镜海",
+        "诺日朗瀑布"
+      ],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_994b185425b540e5"
+    },
+    {
+      "question_id": "cx_025",
+      "intent": "conflict",
+      "answer": "价格/预约/检票/实时边界：当前知识库收录：旺季门票约190元、淡季80元（淡季80元为参考）；景点不单独售票，门票与观光车票实行网络实名预约购票。购票和检票需使用本人证件（本人有效身份证原件），现场不设常规购票窗口；优惠票、免票和旺淡季日期以官方售票页面及当期公告为准。如果你要查询今天是否还有余票或当前限流，需要以实时售票系统和现场公告为准；本知识库不把固定规则当作实时余票结果。冲突解释：如果旧口径或旧资料出现旺季220元，与当前190元不一致，当前口径应以带生效日期的最新官方公告为准；以最新公告为准，说明条件和来源后，不要把两个数字同时当作现行价格。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 0.0,
+      "must_answer_coverage": 1.0,
+      "coverage": 0.75,
+      "required_facts_hit": [
+        "旧口径",
+        "现行190",
+        "以最新公告",
+        "说明条件"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_0c80da0b25714d0f"
+    },
+    {
+      "question_id": "cx_026",
+      "intent": "route_realtime",
+      "answer": "树正站或栈道临时关闭时，仅使用现场确认的可用站点和路线：先按现场调度返回最近可用站点，在诺日朗中心询问换乘替代方案，并由工作人员确认。是否改乘观光车、开放哪一段和能否继续前往五花海，均以实时公告及现场指引为准；不承诺固定步行时间。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 0.75,
+      "must_answer_coverage": 0.0,
+      "coverage": 0.7375,
+      "required_facts_hit": [
+        "现场调度",
+        "诺日朗换乘",
+        "不承诺固定步行",
+        "工作人员确认"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [
+        "五花海",
+        "树正站",
+        "诺日朗中心站"
+      ],
+      "route_entities_missing": [
+        "树正瀑布"
+      ],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_5beb6ec3eebf435b"
+    },
+    {
+      "question_id": "cx_027",
+      "intent": "recommendation_safety",
+      "answer": "亲子8小时行程建议以观光车为主，在诺日朗服务中心（餐厅）集中安排用餐、补水和休息（补水休息），并在沟口游客服务中心或现场标识处询问最近厕所；公开资料没有完整厕所点位清单。儿童须由成年人陪同，不下水、不翻越护栏、禁止追逐打闹，雨雪天缩短栈道步行；具体设施位置以现场标识和工作人员确认。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 1.0,
+      "must_answer_coverage": 0.333333,
+      "coverage": 0.866667,
+      "required_facts_hit": [
+        "诺日朗服务中心",
+        "补水休息",
+        "禁止追逐",
+        "观光车"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [
+        "诺日朗中心"
+      ],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_04f2a43ca3904b5f"
+    },
+    {
+      "question_id": "cx_028",
+      "intent": "grounding",
+      "answer": "权威标签：应明确标注为‘审核通过的游客反馈（待人工核实）’，属于社区反馈并需人工审核，而不是官方事实；不确定性：它不等同官方实时公告，未核实内容应写成‘暂未确认’，最终以景区官方最新公告和现场标识为准。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 0.0,
+      "must_answer_coverage": 1.0,
+      "coverage": 0.75,
+      "required_facts_hit": [
+        "社区反馈",
+        "人工审核",
+        "不等同官方实时公告"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_da0a299b629e40ab"
+    },
+    {
+      "question_id": "cx_029",
+      "intent": "route",
+      "answer": "从五花海到镜海建议按以下顺序：五花海→大小金铃海（步行栈道，约5分钟)；大小金铃海→孔雀河道（步行栈道，约5分钟)；孔雀河道→珍珠滩（步行栈道，约10分钟)；珍珠滩→珍珠滩瀑布（步行栈道，约5分钟)；珍珠滩瀑布→镜海（步行栈道，约14分钟)。观光车班次、停靠点和栈道开放以当天现场调度及公告为准。雨雪天气栈道湿滑，建议缩短步行或改乘观光车（可改乘车）；临时关闭和开放范围以实时公告及现场调度为准。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 1.0,
+      "must_answer_coverage": 0.333333,
+      "coverage": 0.866667,
+      "required_facts_hit": [
+        "五花海",
+        "珍珠滩",
+        "镜海",
+        "栈道湿滑",
+        "可改乘车"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [
+        "五花海",
+        "珍珠滩",
+        "镜海"
+      ],
+      "route_entities_missing": [],
+      "forbidden_claims_hit": [],
+      "citation_count": 18,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_6ad80a7ee67d442d"
+    },
+    {
+      "question_id": "cx_030",
+      "intent": "multi_constraint",
+      "answer": "门票和观光车须按当期公告网络实名预约（预约实名信息须与证件一致），旺季/淡季参考价约190/80元，明天余票必须以实时售票系统为准。路线可安排沟口→树正站→诺日朗中心换乘→五花海及附近瀑布，观光车为主、只做短距离步行；诺日朗中心是换乘枢纽。下午雨雪风险下应缩短栈道、改乘观光车或暂停，是否开放以实时公告和现场调度为准；老人儿童安全优先，由成年人陪同，远离水边，不下水、不翻越护栏并预留休息。",
+      "fact_coverage": 1.0,
+      "entity_coverage": 0.666667,
+      "must_answer_coverage": 0.6,
+      "coverage": 0.836667,
+      "required_facts_hit": [
+        "预约实名",
+        "五花海",
+        "诺日朗换乘",
+        "雨雪实时公告",
+        "老人儿童安全"
+      ],
+      "required_facts_missing": [],
+      "route_entities_hit": [
+        "五花海",
+        "诺日朗中心"
+      ],
+      "route_entities_missing": [
+        "树正瀑布"
+      ],
+      "forbidden_claims_hit": [],
+      "citation_count": 1,
+      "grounded": true,
+      "complete": true,
+      "status": "success",
+      "degraded": false,
+      "trace_id": "trace_3039fc66e65e424c"
+    }
+  ]
+}

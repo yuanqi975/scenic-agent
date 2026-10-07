@@ -1,0 +1,38 @@
+{
+  "conversation_id": "29847d43b545489c91ea440dc935e676",
+  "message": "可以优先去：沟口可到九寨沟游客服务中心询问并短暂停留；诺日朗中心可到诺日朗服务中心（诺日朗餐厅）用餐、休息。景区公开资料未提供完整休息座椅或休息区清单；若你告诉我当前所在景点，我可以继续帮你查附近已公开的服务设施。",
+  "citations": [
+    {
+      "source_type": "facility",
+      "source_id": "facility_001",
+      "title": "九寨沟游客服务中心",
+      "authority": "official",
+      "updated_at": "2026-09-30T00:00:00+00:00"
+    },
+    {
+      "source_type": "facility",
+      "source_id": "facility_006",
+      "title": "诺日朗服务中心（诺日朗餐厅）",
+      "authority": "official",
+      "updated_at": "2026-09-30T00:00:00+00:00"
+    }
+  ],
+  "intent": "recommendation",
+  "trace_id": "trace_ece973096e904732",
+  "mode": "agent",
+  "degraded": false,
+  "status": "success",
+  "error": null,
+  "latency_ms": 22,
+  "goal": "询问游览优先级与交通休息安排",
+  "plan": {
+    "intent": "recommendation",
+    "intent_source": "model",
+    "tasks": [],
+    "delegation_rounds": 0
+  },
+  "agent_chain": [],
+  "agents": [],
+  "tool_calls": 0,
+  "steps": 0
+}

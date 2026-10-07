@@ -1,0 +1,715 @@
+{
+  "questions": 30,
+  "invalid_questions": 0,
+  "top_k": 5,
+  "recall_at_k": 0.233333,
+  "precision_at_k": 0.046667,
+  "mrr_at_k": 0.191667,
+  "ndcg_at_k": 0.0,
+  "abstention_questions": 0,
+  "abstention_evaluated": 30,
+  "abstention_accuracy": 0.8,
+  "channel_hits": {
+    "dense": 0,
+    "sparse": 0,
+    "entity": 0,
+    "structured": 0
+  },
+  "by_question_type": {
+    "comparison": {
+      "questions": 1,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr_at_k": 0.25,
+      "ndcg_at_k": 0.0
+    },
+    "conflict": {
+      "questions": 1,
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    "facility": {
+      "questions": 1,
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    "feedback": {
+      "questions": 1,
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    "grounding": {
+      "questions": 1,
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    "memory": {
+      "questions": 1,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr_at_k": 0.5,
+      "ndcg_at_k": 0.0
+    },
+    "multi_constraint": {
+      "questions": 1,
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    "point_to_point": {
+      "questions": 1,
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    "qa": {
+      "questions": 5,
+      "recall_at_k": 0.4,
+      "precision_at_k": 0.08,
+      "mrr_at_k": 0.4,
+      "ndcg_at_k": 0.0
+    },
+    "qa_realtime": {
+      "questions": 1,
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    "realtime": {
+      "questions": 1,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr_at_k": 1.0,
+      "ndcg_at_k": 0.0
+    },
+    "realtime_safety": {
+      "questions": 1,
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "mrr_at_k": 1.0,
+      "ndcg_at_k": 0.0
+    },
+    "recommendation": {
+      "questions": 5,
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    "recommendation_safety": {
+      "questions": 1,
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    "route": {
+      "questions": 1,
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    "route_realtime": {
+      "questions": 1,
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    "route_safety": {
+      "questions": 3,
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    "safety": {
+      "questions": 2,
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.1,
+      "mrr_at_k": 0.5,
+      "ndcg_at_k": 0.0
+    },
+    "ticket": {
+      "questions": 1,
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0
+    }
+  },
+  "details": [
+    {
+      "question_id": "cx_001",
+      "question_type": "qa",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "structured"
+      ]
+    },
+    {
+      "question_id": "cx_002",
+      "question_type": "qa_realtime",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "structured"
+      ]
+    },
+    {
+      "question_id": "cx_003",
+      "question_type": "recommendation",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "entity"
+      ]
+    },
+    {
+      "question_id": "cx_004",
+      "question_type": "point_to_point",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "entity"
+      ]
+    },
+    {
+      "question_id": "cx_005",
+      "question_type": "route_safety",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "entity"
+      ]
+    },
+    {
+      "question_id": "cx_006",
+      "question_type": "recommendation",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "entity"
+      ]
+    },
+    {
+      "question_id": "cx_007",
+      "question_type": "qa",
+      "matched": true,
+      "rank": 1,
+      "precision_at_k": 0.2,
+      "recall_at_k": 1,
+      "mrr_at_k": 1.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "entity"
+      ]
+    },
+    {
+      "question_id": "cx_008",
+      "question_type": "qa",
+      "matched": true,
+      "rank": 1,
+      "precision_at_k": 0.2,
+      "recall_at_k": 1,
+      "mrr_at_k": 1.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "entity",
+        "structured"
+      ]
+    },
+    {
+      "question_id": "cx_009",
+      "question_type": "safety",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": false,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": []
+    },
+    {
+      "question_id": "cx_010",
+      "question_type": "route_safety",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "entity"
+      ]
+    },
+    {
+      "question_id": "cx_011",
+      "question_type": "realtime",
+      "matched": true,
+      "rank": 1,
+      "precision_at_k": 0.2,
+      "recall_at_k": 1,
+      "mrr_at_k": 1.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "structured"
+      ]
+    },
+    {
+      "question_id": "cx_012",
+      "question_type": "qa",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "entity"
+      ]
+    },
+    {
+      "question_id": "cx_013",
+      "question_type": "facility",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "entity"
+      ]
+    },
+    {
+      "question_id": "cx_014",
+      "question_type": "ticket",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "structured"
+      ]
+    },
+    {
+      "question_id": "cx_015",
+      "question_type": "recommendation",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "entity"
+      ]
+    },
+    {
+      "question_id": "cx_016",
+      "question_type": "qa",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "entity"
+      ]
+    },
+    {
+      "question_id": "cx_017",
+      "question_type": "safety",
+      "matched": true,
+      "rank": 1,
+      "precision_at_k": 0.2,
+      "recall_at_k": 1,
+      "mrr_at_k": 1.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "entity"
+      ]
+    },
+    {
+      "question_id": "cx_018",
+      "question_type": "recommendation",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": false,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": []
+    },
+    {
+      "question_id": "cx_019",
+      "question_type": "route_safety",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "entity"
+      ]
+    },
+    {
+      "question_id": "cx_020",
+      "question_type": "realtime_safety",
+      "matched": true,
+      "rank": 1,
+      "precision_at_k": 0.2,
+      "recall_at_k": 1,
+      "mrr_at_k": 1.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "structured"
+      ]
+    },
+    {
+      "question_id": "cx_021",
+      "question_type": "memory",
+      "matched": true,
+      "rank": 2,
+      "precision_at_k": 0.2,
+      "recall_at_k": 1,
+      "mrr_at_k": 0.5,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "entity"
+      ]
+    },
+    {
+      "question_id": "cx_022",
+      "question_type": "feedback",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "structured"
+      ]
+    },
+    {
+      "question_id": "cx_023",
+      "question_type": "comparison",
+      "matched": true,
+      "rank": 4,
+      "precision_at_k": 0.2,
+      "recall_at_k": 1,
+      "mrr_at_k": 0.25,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "entity"
+      ]
+    },
+    {
+      "question_id": "cx_024",
+      "question_type": "recommendation",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": false,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": []
+    },
+    {
+      "question_id": "cx_025",
+      "question_type": "conflict",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": false,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": []
+    },
+    {
+      "question_id": "cx_026",
+      "question_type": "route_realtime",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "entity"
+      ]
+    },
+    {
+      "question_id": "cx_027",
+      "question_type": "recommendation_safety",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": false,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": []
+    },
+    {
+      "question_id": "cx_028",
+      "question_type": "grounding",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": false,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": []
+    },
+    {
+      "question_id": "cx_029",
+      "question_type": "route",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "entity"
+      ]
+    },
+    {
+      "question_id": "cx_030",
+      "question_type": "multi_constraint",
+      "matched": false,
+      "rank": null,
+      "precision_at_k": 0.0,
+      "recall_at_k": 0,
+      "mrr_at_k": 0.0,
+      "ndcg_at_k": 0.0,
+      "should_abstain": false,
+      "abstention_correct": true,
+      "expected_channels": [],
+      "matched_channels": [],
+      "evaluation_split": "baseline",
+      "backend": "postgres",
+      "retrieval_channels": [
+        "entity",
+        "structured"
+      ]
+    }
+  ]
+}

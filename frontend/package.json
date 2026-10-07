@@ -1,0 +1,24 @@
+{
+  "name": "jiuzhaigou-scenic-agent-web",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "^6.0.8",
+    "element-plus": "^2.9.8",
+    "pinia": "^2.2.6",
+    "typescript": "^5.7.3",
+    "vite": "^7.1.7",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "jsdom": "26.0.0",
+    "vitest": "3.0.5"
+  }
+}

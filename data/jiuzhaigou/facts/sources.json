@@ -1,0 +1,251 @@
+{
+  "note": "九寨沟公开资料来源清单。基础资料访问日期为 2026-09-17，新增公告来源于 2026-09-30 核验。doc_date 为该来源自身标注的发布/更新日期，null 表示来源页面未标注日期。",
+  "accessed_at": "2026-09-30",
+  "items": [
+    {
+      "source_id": "src_01",
+      "name": "九寨沟景区官方网站 · 关于九寨（景区概况）",
+      "url": "https://www.jiuzhai.com/about/jiuzhai-valley",
+      "publisher": "九寨沟风景名胜区管理局",
+      "doc_date": null,
+      "used_for": ["景区概况", "称号", "行政位置", "面积海拔", "得名由来", "三条主沟", "四季特征", "冬季结冰"]
+    },
+    {
+      "source_id": "src_02",
+      "name": "九寨沟景区官方网站 · 标志景点",
+      "url": "https://www.jiuzhai.com/about/scenic-spot",
+      "publisher": "九寨沟风景名胜区管理局",
+      "doc_date": null,
+      "used_for": ["景点清单与描述", "景点海拔", "购物点", "观景台", "冬季不结冰海子"]
+    },
+    {
+      "source_id": "src_03",
+      "name": "九寨沟景区官方网站 · 票务信息",
+      "url": "https://www.jiuzhai.com/intelligent-service/tickets",
+      "publisher": "九寨沟风景名胜区管理局",
+      "doc_date": null,
+      "used_for": ["门票与观光车票价"]
+    },
+    {
+      "source_id": "src_04",
+      "name": "九寨沟景区官方网站 · FAQ 指南（自助帮助）",
+      "url": "https://www.jiuzhai.com/intelligent-service/faq/6146-self-help",
+      "publisher": "九寨沟风景名胜区管理局",
+      "doc_date": null,
+      "note": "页面内容明显为 2017 年地震前旧口径，涉及票价等条目与现行政策冲突，仅用于游览常识与历史口径参考。",
+      "used_for": ["观光车规则", "四季气温", "高原反应", "交通方式", "卫生间口径", "购物特产", "行李寄存背景"]
+    },
+    {
+      "source_id": "src_05",
+      "name": "九寨沟景区官方网站 · 游玩方式",
+      "url": "https://www.jiuzhai.com/intelligent-service/way-of-play",
+      "publisher": "九寨沟风景名胜区管理局",
+      "doc_date": null,
+      "used_for": ["三条主沟景点归属", "一日/二日/三日游览线路"]
+    },
+    {
+      "source_id": "src_06",
+      "name": "九寨沟景区官方网站 · 到达方式（交通）",
+      "url": "https://www.jiuzhai.com/intelligent-service/arrival-mode",
+      "publisher": "九寨沟风景名胜区管理局",
+      "doc_date": null,
+      "used_for": ["高铁", "长途大巴", "飞机", "自驾线路"]
+    },
+    {
+      "source_id": "src_07",
+      "name": "九寨沟景区官方网站 · 自助线路",
+      "url": "https://www.jiuzhai.com/intelligent-service/self-help-route",
+      "publisher": "九寨沟风景名胜区管理局",
+      "doc_date": null,
+      "used_for": ["世界生物圈保护区网络称号"]
+    },
+    {
+      "source_id": "src_08",
+      "name": "九寨沟景区官方网站 · 医疗信息",
+      "url": "https://www.jiuzhai.com/about/scenic-spot/eature-spot/6144-2017-11-29-32",
+      "publisher": "九寨沟风景名胜区管理局",
+      "doc_date": null,
+      "used_for": ["景区救护中心", "地方医院与联系电话"]
+    },
+    {
+      "source_id": "src_09",
+      "name": "九寨沟景区官方网站 · 紧急联系方式",
+      "url": "https://www.jiuzhai.com/about/scenic-spot/eature-spot/6145-2017-11-29-33",
+      "publisher": "九寨沟风景名胜区管理局",
+      "doc_date": null,
+      "used_for": ["管理机构全称", "管理局地址与邮编"]
+    },
+    {
+      "source_id": "src_10",
+      "name": "九寨沟景区官方网站 · 票务温馨提示（旅游公告）",
+      "url": "https://www.jiuzhai.com/news/notice/9961-2024-10-04-07-11-21",
+      "publisher": "九寨沟风景名胜区管理局",
+      "doc_date": "2024-10-04",
+      "used_for": ["实名预约与优惠票规则", "禁止事项", "游客服务中心职能"]
+    },
+    {
+      "source_id": "src_11",
+      "name": "九寨沟景区官方网站 · 关于调整旺季开园时间的通告",
+      "url": "https://www.jiuzhai.com/news/notice/10525-2025-07-15-02-45-42",
+      "publisher": "九寨沟风景名胜区管理局",
+      "doc_date": "2025-07-15",
+      "used_for": ["2025 年旺季开园时间口径"]
+    },
+    {
+      "source_id": "src_12",
+      "name": "九寨沟景区官方网站 · 2025 年国庆、中秋出游温馨提示",
+      "url": "https://www.jiuzhai.com/news/notice/10684-2025-09-27-11-31-31",
+      "publisher": "九寨沟风景名胜区管理局",
+      "doc_date": "2025-09-27",
+      "used_for": ["开放时间", "承载量与候补", "观光车站点与换乘", "停车场", "餐饮与吸烟区", "禁止事项", "高海拔提示", "交通与联系电话"]
+    },
+    {
+      "source_id": "src_13",
+      "name": "九寨沟景区官方网站 · 关于全域恢复开放的通告",
+      "url": "https://www.jiuzhai.com/news/notice/11290-2026-07-29-02-04-43",
+      "publisher": "九寨沟风景名胜区管理局",
+      "doc_date": "2026-07-29",
+      "used_for": ["官方全称", "2026-07-26 泥石流与 07-30 全域恢复开放"]
+    },
+    {
+      "source_id": "src_14",
+      "name": "九寨沟景区官方网站 · 服务第一岗（游客服务中心报道）",
+      "url": "https://www.jiuzhai.com/news/scenic-news/10045-2024-11-05-08-40-16",
+      "publisher": "九寨沟风景名胜区管理局",
+      "doc_date": "2024-11-05",
+      "used_for": ["游客服务中心职能", "轮椅婴儿车租用", "保洁制度", "入沟门卫制度"]
+    },
+    {
+      "source_id": "src_15",
+      "name": "四川省文化和旅游厅 · 九寨沟景区 11 月 16 日至次年 3 月 31 日执行淡季旅游政策",
+      "url": "http://wlt.sc.gov.cn/scwlt/hydt/2024/11/4/b22266721d7d4280beed1569fe69faf2.shtml",
+      "publisher": "四川省文化和旅游厅",
+      "doc_date": "2024-11-04",
+      "used_for": ["淡季时间与入园时间", "淡季承载量", "沟内游沟外住"]
+    },
+    {
+      "source_id": "src_16",
+      "name": "人民网四川频道 · 九寨沟、黄龙等多个景区发布重要提醒",
+      "url": "http://sc.people.com.cn/BIG5/n2/2024/1104/c345167-41030213.html",
+      "publisher": "人民网四川频道",
+      "doc_date": "2024-11-04",
+      "used_for": ["淡季口径交叉验证"]
+    },
+    {
+      "source_id": "src_17",
+      "name": "四川省人民政府 · 九寨沟风景区（世界遗产专题）",
+      "url": "https://www.sc.gov.cn/10462/c112190/2024/4/19/168242b673804ec0a38e33628f11cb57.shtml",
+      "publisher": "四川省人民政府",
+      "doc_date": "2024-04-19",
+      "used_for": ["世界自然遗产", "面积与生物资源", "108 个海子", "六绝与六大景观"]
+    },
+    {
+      "source_id": "src_18",
+      "name": "四川广播电视台（四川观察）· 4 月 1 日起九寨沟景区全段恢复开放 同步实施旺季旅游接待措施",
+      "url": "https://www.sctv.com/news/2036255598233194497",
+      "publisher": "四川广播电视台",
+      "doc_date": "2026-03-24",
+      "used_for": ["2026 年旺季门票与观光车票价格", "旺季入园与闭园时间", "旺季承载量", "禁止事项"]
+    },
+    {
+      "source_id": "src_19",
+      "name": "成都本地宝 · 九寨沟门票多少钱（附优惠政策）",
+      "url": "https://m.cd.bendibao.com/tour/177603.shtm",
+      "publisher": "成都本地宝",
+      "doc_date": "2026-08-12",
+      "used_for": ["淡季票价", "儿童免票", "现场不设购票窗口"]
+    },
+    {
+      "source_id": "src_20",
+      "name": "成都本地宝 · 九寨沟门票 2026 最新优惠政策",
+      "url": "https://m.cd.bendibao.com/tour/116025.shtm",
+      "publisher": "成都本地宝",
+      "doc_date": "2026-08-14",
+      "used_for": ["九类优惠政策"]
+    },
+    {
+      "source_id": "src_21",
+      "name": "成都本地宝 · 九寨沟 9 月 10 日教师节免门票活动",
+      "url": "https://m.cd.bendibao.com/tour/213302.shtm",
+      "publisher": "成都本地宝",
+      "doc_date": "2026-09-02",
+      "used_for": ["教师节专项活动"]
+    },
+    {
+      "source_id": "src_22",
+      "name": "四川在线 · 今日问政：九寨沟实施季节性生态保育，哪些景点关闭",
+      "url": "https://sichuan.scol.com.cn/ggxw/202511/83160068.html",
+      "publisher": "四川在线",
+      "doc_date": "2025-11-21",
+      "used_for": ["季节性轮休保育关闭景点与栈道清单", "观光车站点名称", "长海老人柏观景平台"]
+    },
+    {
+      "source_id": "src_23",
+      "name": "红星新闻网 · 注意！四川九寨沟这些景点冬季暂不开放",
+      "url": "https://news.chengdu.cn/2025/1124/692410bb584059315b795645.shtml",
+      "publisher": "红星新闻网",
+      "doc_date": "2025-11-24",
+      "used_for": ["季节性轮休保育交叉验证"]
+    },
+    {
+      "source_id": "src_24",
+      "name": "重庆美亚国际旅行社 · 九寨沟游览时间分配表与观光巴士站点运行时间表",
+      "url": "https://m.57023.com/jiuzhaigou/a11477.html",
+      "publisher": "第三方旅行社",
+      "doc_date": null,
+      "used_for": ["建议游览时长", "观光车站点与站间里程时间", "精品栈道"]
+    },
+    {
+      "source_id": "src_25",
+      "name": "中国国家地理 · 最美观景拍摄点：九寨沟五花海",
+      "url": "http://tg.dili360.com/scenic/place/code/cng5298014021b30",
+      "publisher": "中国国家地理",
+      "doc_date": null,
+      "note": "公布坐标与沟谷推算值偏差较大，仅作交叉参考，未采信为坐标依据。",
+      "used_for": ["五花海拍摄点参考"]
+    },
+    {
+      "source_id": "src_26",
+      "name": "中国国家地理 · 最美观景拍摄点：九寨沟长海",
+      "url": "http://tg.dili360.com/scenic/place/id/2591.htm",
+      "publisher": "中国国家地理",
+      "doc_date": null,
+      "note": "公布经度 104.304199 与长海实际沟谷位置明显不符，判定不可用。",
+      "used_for": ["未采信（坐标不可用）"]
+    },
+    {
+      "source_id": "src_27",
+      "name": "阿坝州人民政府 · 关于在全州旅游景区提供行李寄存服务的建议",
+      "url": "https://www.abazhou.gov.cn/abazhou/c101355/tayaxq.shtml?id=8df7ce8dd31711ef8498fa163e77778c",
+      "publisher": "阿坝州人民政府",
+      "doc_date": null,
+      "used_for": ["行李寄存政策背景"]
+    },
+    {
+      "source_id": "src_28",
+      "name": "九寨沟景区官方网站（英文版）",
+      "url": "https://en.jiuzhai.com/",
+      "publisher": "九寨沟风景名胜区管理局",
+      "doc_date": null,
+      "used_for": ["英文名称"]
+    },
+    {
+      "source_id": "src_29",
+      "name": "九寨沟景区官方网站 · 8 月 12 日门票预约已达最大承载量的通告",
+      "url": "https://www.jiuzhai.com/news/notice/11325-2026-08-11-16-26-09",
+      "publisher": "九寨沟风景名胜区管理局",
+      "doc_date": "2026-08-11",
+      "accessed_at": "2026-09-30",
+      "used_for": ["单日售罄状态", "候补机制", "旺淡季最大承载量", "入园与闭园时间", "官方咨询电话"]
+    },
+    {
+      "source_id": "src_30",
+      "name": "九寨沟景区官方网站 · 关于教师节免门票的通告",
+      "url": "https://www.jiuzhai.com/news/notice/11378-2026-09-02-08-22-16",
+      "publisher": "九寨沟风景名胜区管理局",
+      "doc_date": "2026-09-02",
+      "accessed_at": "2026-09-30",
+      "used_for": ["教师节临时优惠", "证件核验", "同行者预约规则", "咨询电话"]
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-scenic_agent}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-123456}
+    ports: ["127.0.0.1:5432:5432"]
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-scenic_agent}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    ports: ["127.0.0.1:${REDIS_PORT:-6380}:6379"]
+
+  etcd:
+    image: quay.io/coreos/etcd:v3.5.5
+    environment:
+      ETCD_AUTO_COMPACTION_MODE: revision
+      ETCD_AUTO_COMPACTION_RETENTION: 1000
+      ETCD_QUOTA_BACKEND_BYTES: 4294967296
+      ETCD_SNAPSHOT_COUNT: 50000
+    command: >-
+      etcd --advertise-client-urls=http://etcd:2379
+      --listen-client-urls=http://0.0.0.0:2379
+      --data-dir=/etcd
+    volumes:
+      - milvus_etcd:/etcd
+    healthcheck:
+      test: ["CMD", "etcdctl", "endpoint", "health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  minio:
+    image: ${MINIO_IMAGE:-bitnamilegacy/minio:2024.8.26}
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: ["/opt/bitnami/minio/bin/minio", "server", "/bitnami/minio/data", "--console-address", ":9001"]
+    ports: ["127.0.0.1:9000:9000", "127.0.0.1:9001:9001"]
+    volumes:
+      - milvus_minio:/bitnami/minio/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  milvus:
+    image: milvusdb/milvus:v2.5.10
+    command: ["milvus", "run", "standalone"]
+    environment:
+      ETCD_ENDPOINTS: etcd:2379
+      MINIO_ADDRESS: minio:9000
+    ports: ["127.0.0.1:19530:19530", "127.0.0.1:9091:9091"]
+    volumes:
+      - milvus_data:/var/lib/milvus
+    depends_on:
+      etcd:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql+psycopg://postgres:123456@postgres:5432/scenic_agent}
+      ENVIRONMENT: ${ENVIRONMENT:-development}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173}
+      REDIS_URL: redis://redis:6379/0
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@jiuzhaigou.local}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123456}
+      JWT_SECRET: ${JWT_SECRET:-change-this-secret-in-production}
+      LLM_MODE: ${LLM_MODE:-fallback}
+      LLM_BASE_URL: ${LLM_BASE_URL:-}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_MODEL: ${LLM_MODEL:-gpt-5.6-terra}
+      EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL:-}
+      EMBEDDING_API_KEY: ${EMBEDDING_API_KEY:-}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-text-embedding-3-small}
+      EMBEDDING_DIMENSION: ${EMBEDDING_DIMENSION:-2560}
+      RERANK_BASE_URL: ${RERANK_BASE_URL:-https://api.siliconflow.cn/v1}
+      RERANK_API_KEY: ${RERANK_API_KEY:-${EMBEDDING_API_KEY:-}}
+      RERANK_MODEL: ${RERANK_MODEL:-BAAI/bge-reranker-v2-m3}
+      RAG_BACKEND: ${RAG_BACKEND:-milvus}
+      MILVUS_URI: ${MILVUS_URI:-http://milvus:19530}
+      MILVUS_TOKEN: ${MILVUS_TOKEN:-}
+      MILVUS_COLLECTION: ${MILVUS_COLLECTION:-scenic_knowledge}
+      MILVUS_TIMEOUT_SECONDS: ${MILVUS_TIMEOUT_SECONDS:-3}
+      AMAP_WEATHER_KEY: ${AMAP_WEATHER_KEY:-}
+      AMAP_WEATHER_CITY: ${AMAP_WEATHER_CITY:-513225}
+      AMAP_API_BASE_URL: ${AMAP_API_BASE_URL:-https://restapi.amap.com}
+    ports: ["8000:8000"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      milvus:
+        condition: service_healthy
+      worker:
+        condition: service_started
+  worker:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    command: arq app.worker.WorkerSettings
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql+psycopg://postgres:123456@postgres:5432/scenic_agent}
+      ENVIRONMENT: ${ENVIRONMENT:-development}
+      REDIS_URL: redis://redis:6379/0
+      EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL:-}
+      EMBEDDING_API_KEY: ${EMBEDDING_API_KEY:-}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-text-embedding-3-small}
+      EMBEDDING_DIMENSION: ${EMBEDDING_DIMENSION:-2560}
+      RERANK_BASE_URL: ${RERANK_BASE_URL:-https://api.siliconflow.cn/v1}
+      RERANK_API_KEY: ${RERANK_API_KEY:-${EMBEDDING_API_KEY:-}}
+      RERANK_MODEL: ${RERANK_MODEL:-BAAI/bge-reranker-v2-m3}
+      RAG_BACKEND: ${RAG_BACKEND:-milvus}
+      MILVUS_URI: ${MILVUS_URI:-http://milvus:19530}
+      MILVUS_TOKEN: ${MILVUS_TOKEN:-}
+      MILVUS_COLLECTION: ${MILVUS_COLLECTION:-scenic_knowledge}
+      MILVUS_TIMEOUT_SECONDS: ${MILVUS_TIMEOUT_SECONDS:-3}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      milvus:
+        condition: service_healthy
+  frontend:
+    image: node:24-alpine
+    working_dir: /app
+    volumes: ["./frontend:/app"]
+    environment:
+      VITE_API_PROXY_TARGET: http://backend:8000
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    ports: ["5173:5173"]
+    depends_on: [backend]
+
+volumes:
+  postgres_data:
+  milvus_etcd:
+  milvus_minio:
+  milvus_data:

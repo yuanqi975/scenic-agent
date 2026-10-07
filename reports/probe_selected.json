@@ -1,0 +1,273 @@
+{
+  "cx_005": {
+    "conversation_id": "d764496261524d4c97bd0568dd091001",
+    "message": "熊猫海瀑布步行到五花海，已收录参考步行时间约95分钟，属于较长、连续栈道行程；雨后栈道可能湿滑，老人不建议把全程步行作为首选。可在熊猫海或就近车站改乘观光车，按当天调度和开放范围执行；季节性轮休、临时关闭和班次以实时公告及现场工作人员为准。",
+    "citations": [
+      {
+        "source_type": "notice",
+        "source_id": "doc_operational_faq_addendum",
+        "title": "九寨沟运营补充知识",
+        "authority": "official"
+      }
+    ],
+    "intent": "recommendation",
+    "trace_id": "trace_fb9d10efbd6f46db",
+    "mode": "agent",
+    "degraded": false,
+    "status": "success",
+    "error": null,
+    "latency_ms": 5444,
+    "goal": "询问步行耗时与雨天老人游览建议",
+    "plan": {
+      "intent": "recommendation",
+      "intent_source": "model",
+      "tasks": [],
+      "delegation_rounds": 0
+    },
+    "agent_chain": [],
+    "agents": [],
+    "tool_calls": 0,
+    "steps": 0
+  },
+  "cx_007": {
+    "conversation_id": "df88f5b8f7ab4a8985974c5b280a7ca5",
+    "message": "五花海：位于日则沟。 看点：九寨沟色彩之最、孔雀开屏俯瞰。 资料标注适合：普通游客、摄影爱好者、亲子家庭；难度为轻松。老人同行建议观光车为主、短距离步行并预留休息。",
+    "citations": [
+      {
+        "source_type": "attraction",
+        "source_id": "attr_021",
+        "title": "五花海",
+        "authority": "official",
+        "updated_at": "2026-09-30T00:00:00+00:00"
+      }
+    ],
+    "intent": "qa",
+    "trace_id": "trace_048595defd3649a9",
+    "mode": "agent",
+    "degraded": false,
+    "status": "success",
+    "error": null,
+    "latency_ms": 14,
+    "goal": "keyword-fallback",
+    "plan": {
+      "intent": "qa",
+      "intent_source": "keyword",
+      "tasks": [],
+      "delegation_rounds": 0
+    },
+    "agent_chain": [],
+    "agents": [],
+    "tool_calls": 0,
+    "steps": 0
+  },
+  "cx_012": {
+    "conversation_id": "0dcdd2d6bd604ac7b0c3ab7cf4ad7102",
+    "message": "诺日朗中心位于Y形三沟交汇处，是前往日则沟五花海、树正沟和则查洼沟方向的主要换乘枢纽；这里可换乘观光车，并可在诺日朗服务中心（餐厅）用餐、补水和短暂休息。实际停靠站、发车顺序和是否直达以当天调度及现场工作人员指引为准，不承诺每班车直达。",
+    "citations": [
+      {
+        "source_type": "notice",
+        "source_id": "doc_operational_faq_addendum",
+        "title": "九寨沟运营补充知识",
+        "authority": "official"
+      }
+    ],
+    "intent": "qa",
+    "trace_id": "trace_ccaf49033226445e",
+    "mode": "agent",
+    "degraded": false,
+    "status": "success",
+    "error": null,
+    "latency_ms": 2299,
+    "goal": "询问设施服务和换乘规则",
+    "plan": {
+      "intent": "qa",
+      "intent_source": "model",
+      "tasks": [],
+      "delegation_rounds": 0
+    },
+    "agent_chain": [],
+    "agents": [],
+    "tool_calls": 0,
+    "steps": 0
+  },
+  "cx_018": {
+    "conversation_id": "954bb3b3cae0437e9c4de5cc1a90a6ef",
+    "message": "两日游可按沟谷分日：第一天安排则查洼沟（长海、五彩池）并结合树正沟短线；第二天安排日则沟核心（五花海、珍珠滩、镜海等）。每天结束前至少预留60—90分钟返程缓冲，观光车、排队和天气可能改变时间；当天开放范围和末班车以官方公告及现场调度为准。",
+    "citations": [
+      {
+        "source_type": "notice",
+        "source_id": "doc_operational_faq_addendum",
+        "title": "九寨沟运营补充知识",
+        "authority": "official"
+      }
+    ],
+    "intent": "recommendation",
+    "trace_id": "trace_827e43088b50427d",
+    "mode": "agent",
+    "degraded": false,
+    "status": "success",
+    "error": null,
+    "latency_ms": 1799,
+    "goal": "询问两日游路线安排与返程时间建议",
+    "plan": {
+      "intent": "recommendation",
+      "intent_source": "model",
+      "tasks": [],
+      "delegation_rounds": 0
+    },
+    "agent_chain": [],
+    "agents": [],
+    "tool_calls": 0,
+    "steps": 0
+  },
+  "cx_019": {
+    "conversation_id": "585658ec4d5744bd8980804b99e90c38",
+    "message": "原始森林—箭竹海—熊猫海—五花海不建议在半天内连续徒步：路程长，交通衔接和步行耗时都要计算，景点并非都能直接步行到达。老人更应避开原始森林及日则沟上段远程点，可乘观光车到核心景点后做短距离步行，并预留休息和返程缓冲。",
+    "citations": [
+      {
+        "source_type": "notice",
+        "source_id": "doc_operational_faq_addendum",
+        "title": "九寨沟运营补充知识",
+        "authority": "official"
+      }
+    ],
+    "intent": "recommendation",
+    "trace_id": "trace_1468858b5bd64a25",
+    "mode": "agent",
+    "degraded": false,
+    "status": "success",
+    "error": null,
+    "latency_ms": 2221,
+    "goal": "询问半日连续徒步路线安排",
+    "plan": {
+      "intent": "recommendation",
+      "intent_source": "model",
+      "tasks": [],
+      "delegation_rounds": 0
+    },
+    "agent_chain": [],
+    "agents": [],
+    "tool_calls": 0,
+    "steps": 0
+  },
+  "cx_024": {
+    "conversation_id": "bac3df4345ea49c29f74553b54917ded",
+    "message": "4小时摄影可优先安排镜海（倒影视天气和风况而定）→诺日朗瀑布→五花海，景点之间乘观光车、在开放站点短步行取景。下午返程至少预留60分钟，并以当天末班车、实时公告和现场调度为准，不保证镜海一定出现倒影。",
+    "citations": [
+      {
+        "source_type": "notice",
+        "source_id": "doc_operational_faq_addendum",
+        "title": "九寨沟运营补充知识",
+        "authority": "official"
+      }
+    ],
+    "intent": "recommendation",
+    "trace_id": "trace_93e0acc410404cad",
+    "mode": "agent",
+    "degraded": false,
+    "status": "success",
+    "error": null,
+    "latency_ms": 2461,
+    "goal": "询问行程路线安排",
+    "plan": {
+      "intent": "recommendation",
+      "intent_source": "model",
+      "tasks": [],
+      "delegation_rounds": 0
+    },
+    "agent_chain": [],
+    "agents": [],
+    "tool_calls": 0,
+    "steps": 0
+  },
+  "cx_027": {
+    "conversation_id": "8945e435d2a14891acc21e61fd587e76",
+    "message": "亲子8小时行程建议以观光车为主，在诺日朗服务中心（餐厅）集中安排用餐、补水和休息，并在沟口游客服务中心或现场标识处询问最近厕所；公开资料没有完整厕所点位清单。儿童须由成年人陪同，不下水、不翻越护栏、不追逐打闹，雨雪天缩短栈道步行；具体设施位置以现场标识和工作人员确认。",
+    "citations": [
+      {
+        "source_type": "notice",
+        "source_id": "doc_operational_faq_addendum",
+        "title": "九寨沟运营补充知识",
+        "authority": "official"
+      }
+    ],
+    "intent": "recommendation",
+    "trace_id": "trace_590a16c2191e4973",
+    "mode": "agent",
+    "degraded": false,
+    "status": "success",
+    "error": null,
+    "latency_ms": 2127,
+    "goal": "询问亲子游览安排建议",
+    "plan": {
+      "intent": "recommendation",
+      "intent_source": "model",
+      "tasks": [],
+      "delegation_rounds": 0
+    },
+    "agent_chain": [],
+    "agents": [],
+    "tool_calls": 0,
+    "steps": 0
+  },
+  "cx_028": {
+    "conversation_id": "928a96618f714ccc92424822def5752f",
+    "message": "游客反馈应先进入反馈流程并由人工审核，不能直接改写成官方公告或实时维修结论。审核通过的内容仍应标注为游客/社区反馈，是否恢复请以官方最新公告、现场标识或工作人员确认。",
+    "citations": [
+      {
+        "source_type": "notice",
+        "source_id": "doc_operational_faq_addendum",
+        "title": "九寨沟运营补充知识",
+        "authority": "official"
+      }
+    ],
+    "intent": "qa",
+    "trace_id": "trace_e74cc20ca21e4b51",
+    "mode": "agent",
+    "degraded": false,
+    "status": "success",
+    "error": null,
+    "latency_ms": 2331,
+    "goal": "询问信息标注规范，属知识性提问",
+    "plan": {
+      "intent": "qa",
+      "intent_source": "model",
+      "tasks": [],
+      "delegation_rounds": 0
+    },
+    "agent_chain": [],
+    "agents": [],
+    "tool_calls": 0,
+    "steps": 0
+  },
+  "cx_030": {
+    "conversation_id": "37a52fe3f4e94120918919fb2dfe2712",
+    "message": "门票和观光车须按当期公告网络实名预约，旺季/淡季参考价约190/80元，明天余票必须以实时售票系统为准。路线可安排沟口→树正站→诺日朗中心换乘→五花海及附近瀑布，观光车为主、只做短距离步行；诺日朗中心是换乘枢纽。下午雨雪风险下应缩短栈道、改乘观光车或暂停，是否开放以实时公告和现场调度为准；老人儿童由成年人陪同，远离水边，不下水、不翻越护栏并预留休息。",
+    "citations": [
+      {
+        "source_type": "notice",
+        "source_id": "doc_operational_faq_addendum",
+        "title": "九寨沟运营补充知识",
+        "authority": "official"
+      }
+    ],
+    "intent": "recommendation",
+    "trace_id": "trace_e256ebbdb78c4a77",
+    "mode": "agent",
+    "degraded": false,
+    "status": "success",
+    "error": null,
+    "latency_ms": 4874,
+    "goal": "综合询问路线行程及雨雪票务安全",
+    "plan": {
+      "intent": "recommendation",
+      "intent_source": "model",
+      "tasks": [],
+      "delegation_rounds": 0
+    },
+    "agent_chain": [],
+    "agents": [],
+    "tool_calls": 0,
+    "steps": 0
+  }
+}

@@ -1,0 +1,10 @@
+.git
+.idea
+.pytest_cache
+.venv
+**/__pycache__
+**/*.pyc
+frontend/node_modules
+frontend/dist
+reports
+pytest_diag.log
