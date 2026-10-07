@@ -1,230 +1,320 @@
 # 九寨沟景区智能服务与运营 Agent
 
-面向九寨沟风景名胜区（`park_id = jiuzhaigou_scenic_area`）的 AI 智能客服 + 运营后台系统：
-FastAPI + PostgreSQL(pgvector) + Redis + arq + Vue 3。
+面向九寨沟景区的智能问答、路线推荐、实时天气和运营管理系统。
 
-知识库内容来自公开可查证的九寨沟真实资料（景点、设施、票价、开放时间、游览规则、官方问答和带生效时间的景区公告），
-数据来源、口径冲突与已知缺口见 [README_DATA.md](README_DATA.md)。
+- 后端：FastAPI、PostgreSQL + pgvector、Redis、ARQ Worker
+- 检索：PostgreSQL 结构化检索，可选 Milvus 混合检索
+- 前端：Vue 3 + Vite
+- 部署：Docker Compose，适合本地开发和阿里云 ECS
 
-## 本地启动
+## 一、运行前准备
 
-```powershell
+推荐使用 Docker Compose。请安装 Docker Desktop（Windows、macOS）或 Docker Engine + Docker Compose（Linux）。如需导入数据或运行测试，还需要 Python 3.11 及以上版本和 Git。
+
+检查安装：
+
+~~~bash
+docker --version
+docker compose version
+git --version
+python --version
+~~~
+
+获取代码：
+
+~~~bash
+git clone https://github.com/yuanqi975/jiuzhaigou-scenic-agent.git
+cd jiuzhaigou-scenic-agent
+~~~
+
+## 二、配置环境变量
+
+复制模板：
+
+~~~bash
+cp .env.example .env
+~~~
+
+Windows PowerShell：
+
+~~~powershell
+Copy-Item .env.example .env
+~~~
+
+编辑 .env，至少修改以下配置：
+
+~~~env
+POSTGRES_PASSWORD=请改成数据库强密码
+DATABASE_URL=postgresql+psycopg://postgres:请改成数据库强密码@postgres:5432/scenic_agent
+ADMIN_EMAIL=admin@example.com
+ADMIN_PASSWORD=请改成管理员强密码
+JWT_SECRET=请填写至少32位随机字符串
+~~~
+
+首次体验可以使用不依赖真实模型的降级模式：
+
+~~~env
+LLM_MODE=fallback
+RAG_BACKEND=postgres
+~~~
+
+使用真实模型和 Milvus 时，填写：
+
+~~~env
+LLM_MODE=agent
+LLM_BASE_URL=https://你的模型服务/v1
+LLM_API_KEY=你的模型密钥
+LLM_MODEL=你的模型名称
+EMBEDDING_BASE_URL=https://你的向量服务/v1
+EMBEDDING_API_KEY=你的向量服务密钥
+RAG_BACKEND=milvus
+~~~
+
+.env 含有密钥，只能保存在本地或服务器，不能提交到 GitHub。.env.example 只保留配置说明。
+
+## 三、使用 Docker Compose 启动（推荐）
+
+在项目根目录执行：
+
+~~~bash
+docker compose up -d --build
+docker compose ps
+~~~
+
+查看后端日志：
+
+~~~bash
+docker compose logs -f backend
+~~~
+
+访问地址：
+
+- 前端：http://localhost:5173
+- 后端健康检查：http://localhost:8000/api/v1/health
+
+停止服务但保留数据：
+
+~~~bash
+docker compose stop
+~~~
+
+停止并删除容器（仍保留数据卷）：
+
+~~~bash
+docker compose down
+~~~
+
+不要随意执行 docker compose down -v，否则会删除 PostgreSQL 和 Milvus 数据卷。
+
+## 四、初始化景区数据
+
+Docker 首次创建 PostgreSQL 容器时会执行 sql/init.sql 创建表结构。要让问答和推荐接口返回完整景区数据，还需要导入数据。
+
+### 1. 创建 Python 虚拟环境
+
+Windows PowerShell：
+
+~~~powershell
+python -m venv .venv
+.\\.venv\\Scripts\\Activate.ps1
 python -m pip install -r requirements.txt
-$env:DATABASE_URL = "postgresql+psycopg://postgres:123456@localhost:5432/scenic_agent"
-$env:PARK_ID = "jiuzhaigou_scenic_area"
-$env:ADMIN_EMAIL = "admin@jiuzhaigou.local"
-$env:ADMIN_PASSWORD = "admin123456"
+~~~
+
+Linux 或 macOS：
+
+~~~bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+~~~
+
+### 2. 执行迁移和导入
+
+Docker 将 PostgreSQL 映射到本机 5432、Redis 映射到本机 6380。Windows PowerShell：
+
+~~~powershell
+$env:PYTHONPATH = "backend"
+$env:DATABASE_URL = "postgresql+psycopg://postgres:你的数据库密码@localhost:5432/scenic_agent"
+$env:REDIS_URL = "redis://localhost:6380/0"
+
+alembic -c alembic.ini upgrade head
+python scripts/generate_jiuzhaigou_data.py
+python scripts/import_to_postgres.py --dsn $env:DATABASE_URL --chunk-size 800 --chunk-overlap 120
+~~~
+
+Linux 或 macOS：
+
+~~~bash
+export PYTHONPATH=backend
+export DATABASE_URL='postgresql+psycopg://postgres:你的数据库密码@localhost:5432/scenic_agent'
+export REDIS_URL='redis://localhost:6380/0'
+
+alembic -c alembic.ini upgrade head
+python scripts/generate_jiuzhaigou_data.py
+python scripts/import_to_postgres.py --dsn "$DATABASE_URL" --chunk-size 800 --chunk-overlap 120
+~~~
+
+导入后重启：
+
+~~~bash
+docker compose restart backend worker
+~~~
+
+### 3. 建立 Milvus 索引（可选）
+
+配置 embedding 服务后执行：
+
+~~~bash
+python scripts/index_milvus.py --uri http://127.0.0.1:19530 --collection scenic_knowledge
+~~~
+
+没有 embedding 服务时使用 RAG_BACKEND=postgres。
+
+## 五、不使用 Docker 的本地开发
+
+需要自行安装并启动 PostgreSQL（需 pgvector）和 Redis。
+
+~~~powershell
+python -m pip install -r requirements.txt
+$env:PYTHONPATH = "backend"
+$env:DATABASE_URL = "postgresql+psycopg://postgres:数据库密码@localhost:5432/scenic_agent"
+$env:REDIS_URL = "redis://localhost:6379/0"
 alembic -c alembic.ini upgrade head
 uvicorn app.main:app --app-dir backend --reload --port 8000
-```
+~~~
 
-另开终端：
+另开终端启动前端：
 
-```powershell
+~~~powershell
 cd frontend
 npm install
 npm run dev
-```
+~~~
 
-访问 `http://localhost:5173`。默认使用 `LLM_MODE=fallback`，不需要任何模型 Key。
+访问 http://localhost:5173。
 
-生产环境必须设置 `ENVIRONMENT=production`、随机 `JWT_SECRET`、非默认管理员密码、真实
-`DATABASE_URL` 和显式 `CORS_ORIGINS`；配置校验会拒绝开发默认值。管理员登录失败按 IP +
-账号维度限流，运行指标可从 `/api/v1/metrics` 获取。
+## 六、部署到阿里云 ECS
 
-数据库需要先建表并导入九寨沟数据集：
+推荐 Ubuntu ECS，只开放安全组端口 22、80、443；不要把数据库、Redis、Milvus 和后端端口开放到公网。
 
-```powershell
-psql -f sql/init.sql
-python scripts/generate_jiuzhaigou_data.py
-python scripts/import_to_postgres.py --dsn "postgresql+psycopg://postgres:123456@localhost:5432/scenic_agent"
-```
+~~~bash
+sudo apt update
+sudo apt install -y git docker.io docker-compose-plugin nginx certbot python3-certbot-nginx
+sudo systemctl enable --now docker
+sudo mkdir -p /opt
+sudo git clone https://github.com/yuanqi975/jiuzhaigou-scenic-agent.git /opt/jiuzhaigou-agent
+cd /opt/jiuzhaigou-agent
+cp .env.example .env
+chmod 600 .env
+~~~
 
-## Embedding Worker
+编辑服务器上的 .env：
 
-## Milvus Hybrid RAG
+~~~env
+ENVIRONMENT=production
+CORS_ORIGINS=https://你的域名
+LLM_MODE=agent
+JWT_SECRET=随机生成的至少32位字符串
+ADMIN_PASSWORD=管理员强密码
+~~~
 
-The application keeps PostgreSQL as the transactional source of truth and uses
-Milvus as the primary document index. Each chunk is indexed with both a dense vector
-and Milvus's native BM25 sparse function. Docker Compose starts PostgreSQL, Redis,
-Milvus, etcd and MinIO together:
+生产环境不能使用默认 JWT 密钥、默认管理员密码或 LLM_MODE=fallback。配置完成后：
 
-```powershell
-Copy-Item .env.example .env
-docker compose up -d
+~~~bash
+docker compose up -d --build
 docker compose ps
-```
+curl http://127.0.0.1:8000/api/v1/health
+~~~
 
-Import the dataset before building an index. With an embedding API configured, build
-the PostgreSQL compatibility vectors and then index the same chunks into Milvus. The
-importer now performs real paragraph/sentence chunking (default 800 characters with
-120-character overlap) before writing `document_chunks`; it no longer treats every
-source document as `chunk_index=0`:
+域名解析到 ECS 后，可用 Certbot 配置 HTTPS：
 
-```powershell
-python scripts/generate_jiuzhaigou_data.py
-python scripts/import_to_postgres.py --dsn "postgresql+psycopg://postgres:123456@localhost:5432/scenic_agent" --chunk-size 800 --chunk-overlap 120
-python scripts/index_milvus.py --uri http://localhost:19530 --collection scenic_knowledge
-```
+~~~bash
+sudo certbot --nginx -d 你的域名
+~~~
 
-To ingest a real Markdown/plain-text guide, use the same chunker and create a
-durable embedding task for the Worker. This repository includes a detailed sample
-at `data/jiuzhaigou/source_documents/jiuzhaigou_detailed_guide.md`:
+## 七、接口和测试
 
-```powershell
-python scripts/ingest_markdown.py `
-  --dsn "postgresql+psycopg://postgres:123456@localhost:5432/scenic_agent" `
-  --input data/jiuzhaigou/source_documents/jiuzhaigou_detailed_guide.md `
-  --chunk-size 800 --chunk-overlap 120 `
-  --redis-url redis://127.0.0.1:6380/0
-```
+常用接口：
 
-The command writes one `documents` row, multiple `document_chunks` rows, and one
-durable `async_tasks` row. The Worker embeds every chunk and upserts deterministic
-IDs such as `doc_jiuzhaigou_detailed_guide:0` and `:1` into Milvus. Re-running an
-ingestion replaces the document's chunk layout and invalidates its previous vectors,
-so the embedding task must complete before relying on semantic retrieval.
+~~~text
+GET /api/v1/health
+GET /api/v1/metrics
+~~~
 
-The migration is intentionally destructive for the selected Milvus collection:
-`scripts/index_milvus.py` drops the existing Dense-only collection and creates a new
-Dense + native BM25 schema. PostgreSQL is not deleted or changed. An embedding API key
-is required, and the command must be rerun whenever the embedding dimension or schema
-changes. Use `--keep-existing` only when the collection already has the hybrid schema.
-The PostgreSQL compatibility embedding column uses `halfvec(2560)` with
-`halfvec_cosine_ops`; pgvector's HNSW `vector` type cannot index more than 2000
-dimensions. Existing databases can apply `sql/migrate_embedding_dimension_2560.sql`.
+运行测试：
 
-Runtime selection is controlled by `RAG_BACKEND`:
+~~~bash
+python -m pytest -q
+python -m pytest backend/tests -v
+~~~
 
-| Value | Behaviour |
-|---|---|
-| `postgres` | Existing PostgreSQL retrieval only; rollback mode. |
-| `shadow` | Milvus serves the candidate path while PostgreSQL is also queried for comparison. |
-| `milvus` | Milvus Dense + native BM25 plus PostgreSQL entity/structured evidence; failure falls back to PostgreSQL. |
+前端测试：
 
-`rag_search` is the canonical Agent RAG tool. It returns retrieval channels,
-authority labels, citations and conflict markers. `search_knowledge` remains for
-backward compatibility. High-risk ticketing, opening, restriction, safety and route
-questions have a deterministic retrieval policy and cannot bypass evidence gathering.
-The result also exposes `evidence_score`, `grounding_status` and `abstention_required`;
-these are explainable rule scores, not calibrated probabilities.
+~~~bash
+cd frontend
+npm install
+npm run test
+~~~
 
-`.env.example` contains the complete configuration surface without real secrets. Do not
-commit a populated `.env`; use a secret manager or deployment environment variables.
+## 八、常见问题
 
-### 离线评测
+### 页面打不开
 
-评测兼容 `expected_document_id` 和多文档标注字段，并输出 Recall、Precision、MRR、nDCG
-及按问题类型分组结果：
+~~~bash
+docker compose ps
+docker compose logs --tail=100 backend frontend
+~~~
 
-```powershell
-python scripts/evaluate_rag.py --input data/jiuzhaigou/evaluation_questions.jsonl --output reports/eval_baseline.json
-```
+### 后端显示数据库不可用
 
-当前还提供复杂场景评测：
+检查 PostgreSQL 状态，并确认 .env 中 POSTGRES_PASSWORD 与 DATABASE_URL 使用了同一个密码：
 
-```powershell
-python scripts/evaluate_rag.py --input data/jiuzhaigou/evaluation_questions_v2.jsonl --split complex --output reports/eval_complex.json
-```
+~~~bash
+docker compose logs --tail=100 postgres
+~~~
 
-详细的架构、数据来源、上线检查和评测口径见 [`docs/项目解读-v2.0.md`](docs/项目解读-v2.0.md)。
+### SSH 无法连接 ECS
 
-没有 PostgreSQL 时也会快速返回有效问题的降级报告，但不能将全零结果当成模型基线。
+安全组的 SSH 访问来源填写当前电脑的公网 IP，并加 /32，例如：
 
-### RAG 证据质量
+~~~text
+你的公网IP/32
+~~~
 
-检索结果不是简单的「向量距离最小的前 N 条」：
+不要填写 192.168.x.x 局域网地址，也不要长期使用 0.0.0.0/0。
 
-- **RRF 融合**：dense / sparse / entity / structured 四路候选按倒数排名融合，而不是直接比较距离；
-- **权威性加权**：`official` 高于 `community`；
-- **时效性加权**：按 `updated_at` 指数衰减，权重被限制在 ±10%，只用于打破近似平局，不会推翻明显更匹配的文本；
-- **冲突检测**：按 `source_id`（描述对象）与「带标签的事实」分组比较，因此
-  「门票 190 元、观光车票 90 元」**不会**被误判为冲突。区分两种严重级别：
-  `conflict`（不同文档对同一事实给出不同值）与 `ambiguous`（同一文档给出旺季/淡季等多个取值，
-  属于条件差异，回答必须说明适用条件）。出现冲突时会下调 `confidence` 并在结果中给出 `advice`。
+## 九、提交代码到 GitHub
 
-### 运行时可靠性
+.env 已被 .gitignore 忽略。修改代码后，在项目根目录执行：
 
-- **审计与会话写入不阻塞事件循环**：`backend/app/core/db_write.py` 用有界队列 + 单后台线程承载
-  `agent_runs` / `agent_steps` / `agent_delegations` / `run_traces` / `conversation_messages` 的写入。
-  psycopg 是同步驱动，此前在事件循环内直接建连会让一个 ReAct 循环卡住 30 秒并耗尽 45 秒请求预算。
-  数据库不可用时按队列丢弃审计明细（观测数据可以让步，访客的回答不能）。
-- **熔断**：`database_available()` 只在重试窗口内信任一次成功探测；写入线程在真实建连失败后打开熔断，
-  停止对每个任务重复重试。`probe_connection()` 探测归一化后的主机地址，避免 `localhost` 对每个解析地址
-  各等一次 `connect_timeout`。
-- 失败降级：`_salvage` 路径自身也是防御性的——错误处理器崩溃会让「降级回答」变成「没有回答」。
+~~~bash
+git status
+git add .
+git commit -m "说明本次修改内容"
+git push
+~~~
 
-游客反馈先进入候选知识，管理员采纳后才创建正式文档和 `embed_document` 任务。配置有效的 `EMBEDDING_BASE_URL` 与 `EMBEDDING_API_KEY` 后，可启动 arq worker：
+第一次关联远程仓库时：
 
-```powershell
-$env:PYTHONPATH = "backend"
-arq app.worker.WorkerSettings
-```
+~~~bash
+git remote add origin https://github.com/yuanqi975/jiuzhaigou-scenic-agent.git
+git branch -M main
+git push -u origin main
+~~~
 
-未配置 Key 时任务会保持 `waiting_for_configuration`，不会生成伪造向量。也可以手动触发文档重建索引：
+当前电脑使用 SSH 443 端口连接 GitHub；网络无法访问 HTTPS 时使用：
 
-```text
-POST /api/v1/admin/documents/{document_id}/reindex
-```
+~~~bash
+git remote set-url origin ssh://git@ssh.github.com:443/yuanqi975/jiuzhaigou-scenic-agent.git
+git push -u origin main
+~~~
 
-Redis 用于聊天/RAG 缓存、限流和 arq 队列；Redis 不可用时会自动降级到进程内缓存，数据库中的会话、审计和任务记录仍然保留。
+推送前检查：
 
-## 管理员
+~~~bash
+git status
+git ls-files .env
+~~~
 
-首次后端启动时使用环境变量创建管理员。示例账号：`admin@jiuzhaigou.local`，密码为运行时设置的 `ADMIN_PASSWORD`。
+第二条命令没有输出，才表示 .env 没有被 Git 跟踪。若密钥曾经提交到仓库，必须立即在服务商后台撤销并重新生成。
 
-## 数据
-
-| 文件 | 内容 |
-|---|---|
-| `data/jiuzhaigou/facts/*.json` | 人工整理的九寨沟公开事实（园区、40 个景点、37 项设施、观光车与栈道衔接、24 条官方问答、20 篇景区知识、规则政策、28 条来源） |
-| `data/jiuzhaigou/*.json(l)` | 由 `scripts/generate_jiuzhaigou_data.py` 生成的入库数据集 |
-| `data/jiuzhaigou/_research_raw.md` | 调研原始底稿（逐条标注来源 URL 与资料日期） |
-
-每条记录都带 `data_source` 字段：`official` / `third_party` / `derived` / `derived_simulation`，
-游客反馈等演示数据一律标记为 `derived_simulation` 并带 `is_simulated` 与免责说明。
-
-## 测试
-
-无需数据库即可运行全部单元与回归测试（约 13 秒）：
-
-```powershell
-python -m pytest -q                     # 无数据库：123 passed、5 skipped；完整基础设施：128 passed
-```
-
-需要 PostgreSQL + Redis 的接口冒烟测试：
-
-```powershell
-python -m pytest backend/tests -v       # 数据库不可用时会显式 skip，不会挂起
-```
-
-关键回归用例（都是「曾经静默通过」的缺陷，见
-[实施计划](docs/superpowers/plans/2026-09-19-milvus-react-supervisor.md) Task 7–8）：
-
-| 文件 | 保护的契约 |
-|---|---|
-| `tests/test_answer_path.py` | 请求整体可用：状态必须是 `success`、必须带引用、且不得退化成「暂未查询到足够信息」；单请求 < 2 秒（上限远低于 3 秒 `connect_timeout`，一旦有同步数据库调用重新回到事件循环就会失败） |
-| `tests/test_db_write_queue.py` | 写入不阻塞调用方、后台线程真实执行、熔断生效、审计写入绝不在调用线程上建连 |
-| `tests/test_route_constraints.py` | 季节闭园基线：**同一日期**下规划与校验必须一致；不给日期时校验保持保守口径 |
-| `tests/test_intent_routing.py` | 反馈/投诉分流，包含「厕所不能使用」这类无「反馈」字样的设施问题，以及不应误判的反例 |
-| `tests/test_rag_fusion.py` | 时效性权重有界、同标签不同值才算冲突、「门票 190 元 + 观光车票 90 元」不是冲突 |
-| `tests/test_rag_event_loop.py` | 检索（含 embedding HTTP 与 Milvus）不得阻塞事件循环；并发检索必须重叠 |
-| `tests/test_audit_regressions.py` | 路线参数必须来自游客原话而非内部指令；强制检索策略按游客问题判定；畸形模型响应只能变成 `LLMUnavailable`；检索证据必须能到达回答层 |
-| `tests/test_health_endpoint.py` | 健康检查必须暴露写入队列与熔断状态 |
-
-## 压测
-
-```powershell
-locust -f loadtests/locustfile.py --host http://127.0.0.1:8000
-```
-
-打开 `http://localhost:8089` 并逐步从 10、50、100 用户增加压测。
-
-也可以按场景单独运行：
-
-```powershell
-locust -f loadtests/locustfile.py --host http://127.0.0.1:8000 --headless -u 20 -r 4 -t 1m --tags cache
-locust -f loadtests/locustfile.py --host http://127.0.0.1:8000 --headless -u 10 -r 2 -t 1m --tags sse
-```
-
-`browse`、`recommend`、`cache`、`model`、`sse` 分别对应浏览、路线、缓存命中、模型问答和流式问答。报告中重点关注失败率、P95、RPS；Agent 运行记录中的 `cache_hit` 可核对缓存命中。
