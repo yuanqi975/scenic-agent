@@ -1,6 +1,6 @@
-# 九寨沟景区智能服务与运营 Agent
+# 景区智能服务与运营 Agent
 
-面向九寨沟景区的智能问答、路线推荐、实时天气和运营管理系统。
+面向景区的智能问答、路线推荐、实时天气和运营管理系统。
 
 - 后端：FastAPI、PostgreSQL + pgvector、Redis、ARQ Worker
 - 检索：PostgreSQL 结构化检索，可选 Milvus 混合检索
@@ -23,8 +23,8 @@ python --version
 获取代码：
 
 ~~~bash
-git clone https://github.com/yuanqi975/jiuzhaigou-scenic-agent.git
-cd jiuzhaigou-scenic-agent
+git clone https://github.com/yuanqi975/scenic-agent.git
+cd scenic-agent
 ~~~
 
 ## 二、配置环境变量
@@ -283,38 +283,4 @@ docker compose logs --tail=100 postgres
 
 不要填写 192.168.x.x 局域网地址，也不要长期使用 0.0.0.0/0。
 
-## 九、提交代码到 GitHub
-
-.env 已被 .gitignore 忽略。修改代码后，在项目根目录执行：
-
-~~~bash
-git status
-git add .
-git commit -m "说明本次修改内容"
-git push
-~~~
-
-第一次关联远程仓库时：
-
-~~~bash
-git remote add origin https://github.com/yuanqi975/jiuzhaigou-scenic-agent.git
-git branch -M main
-git push -u origin main
-~~~
-
-当前电脑使用 SSH 443 端口连接 GitHub；网络无法访问 HTTPS 时使用：
-
-~~~bash
-git remote set-url origin ssh://git@ssh.github.com:443/yuanqi975/jiuzhaigou-scenic-agent.git
-git push -u origin main
-~~~
-
-推送前检查：
-
-~~~bash
-git status
-git ls-files .env
-~~~
-
-第二条命令没有输出，才表示 .env 没有被 Git 跟踪。若密钥曾经提交到仓库，必须立即在服务商后台撤销并重新生成。
 
