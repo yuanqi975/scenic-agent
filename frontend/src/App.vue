@@ -22,6 +22,7 @@ const input = ref('')
 const loading = ref(false)
 // Keep the active conversation only in memory. A fresh page load starts with
 // the welcome message instead of restoring a previous browser conversation.
+localStorage.removeItem('conversation_id')
 const conversationId = ref<string>()
 const citations = ref<any[]>([])
 const attractions = ref<Attraction[]>([])
