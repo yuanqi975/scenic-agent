@@ -41,6 +41,7 @@ class RagHit:
     metadata: dict[str, Any] = field(default_factory=dict)
     channels: list[str] = field(default_factory=list)
     updated_at: str | None = None
+    entity_rank: int | None = None
 
     def __post_init__(self) -> None:
         if not self.channels:
@@ -73,6 +74,12 @@ def _as_hit(value: RagHit | dict[str, Any], channel: str) -> RagHit:
         metadata=metadata,
         channels=[channel],
         updated_at=value.get("updated_at") or metadata.get("updated_at"),
+        entity_rank=(
+            int(value["entity_rank"])
+            if value.get("entity_rank") is not None
+            and str(value.get("entity_rank")).isdigit()
+            else None
+        ),
     )
 
 
@@ -156,6 +163,10 @@ def fuse_hits(
                     existing.authority = hit.authority
                 if not existing.updated_at and hit.updated_at:
                     existing.updated_at = hit.updated_at
+                if hit.entity_rank is not None and (
+                    existing.entity_rank is None or hit.entity_rank < existing.entity_rank
+                ):
+                    existing.entity_rank = hit.entity_rank
             ranks.setdefault(key, []).append(rank)
     scored: list[tuple[float, RagHit]] = []
     for key, hit in merged.items():
@@ -287,7 +298,7 @@ class PostgresRetriever:
         queries = request.filters.get("planned_queries") if isinstance(request.filters, dict) else None
         query_texts = [str(item.get("text")) for item in queries if isinstance(item, dict) and item.get("text")] if isinstance(queries, list) else [request.query]
         for query in query_texts[:4]:
-            items = retrieve(query, top_k=max(request.top_k, config.RETRIEVAL_TOP_K))
+            items = retrieve(query, top_k=max(request.top_k, config.RAG_RERANK_CANDIDATES))
             for item in items:
                 method = str(item.get("retrieval") or "")
                 if method == "entity":
@@ -337,7 +348,7 @@ class MilvusRetriever:
         client = self._client_or_none()
         if client is None:
             raise RuntimeError("Milvus client is unavailable")
-        from .retrieval import embed_query
+        from .retrieval import embed_queries, embed_query
 
         channels: dict[str, list[dict[str, Any]]] = {"dense": [], "sparse": [], "entity": []}
         planned = request.filters.get("planned_queries") if isinstance(request.filters, dict) else None
@@ -353,8 +364,10 @@ class MilvusRetriever:
         ]
         filter_expr = self._filter_expression(request.filters)
         search_errors: list[str] = []
-        for query in queries:
-            vector_text = embed_query(query)
+        # Preserve the one-query function path for existing lightweight test doubles;
+        # production multi-query requests share one embedding HTTP round-trip.
+        vector_texts = [embed_query(queries[0])] if len(queries) == 1 else embed_queries(queries)
+        for query, vector_text in zip(queries, vector_texts):
             if vector_text:
                 try:
                     vector = self._parse_vector(vector_text)
@@ -482,7 +495,11 @@ class HybridRagService:
                 return cached
         if self.backend == "postgres":
             raw = await _maybe_await(_offload(self.fallback.search, request))
-            result = await self._rerank_result(self._result(raw, backend="postgres"), request.query)
+            result = await self._rerank_result(
+                self._result(raw, backend="postgres", candidate_top_k=max(request.top_k, config.RAG_RERANK_CANDIDATES)),
+                request.query,
+                final_top_k=request.top_k,
+            )
             if cache_enabled and self._cacheable(request.query):
                 cache_set(cache_key, result)
             return result
@@ -513,12 +530,20 @@ class HybridRagService:
                         channels[key].extend(list(lexical.get(key) or []))
                 else:
                     channels["sparse"] = list(lexical or [])
-                result = self._result(channels, backend="milvus")
+                result = self._result(
+                    channels,
+                    backend="milvus",
+                    candidate_top_k=max(request.top_k, config.RAG_RERANK_CANDIDATES),
+                )
             else:
-                result = self._result(raw, backend="milvus")
+                result = self._result(raw, backend="milvus", candidate_top_k=max(request.top_k, config.RAG_RERANK_CANDIDATES))
         except Exception:
             raw = await _maybe_await(_offload(self.fallback.search, request))
-            result = self._result(raw, backend="postgres-fallback")
+            result = self._result(
+                raw,
+                backend="postgres-fallback",
+                candidate_top_k=max(request.top_k, config.RAG_RERANK_CANDIDATES),
+            )
         if self.backend == "shadow":
             try:
                 fallback_raw = await _maybe_await(_offload(self.fallback.search, request))
@@ -531,7 +556,7 @@ class HybridRagService:
                     result["shadow_count"] = len(fallback_raw or [])
             except Exception:
                 result["shadow_count"] = 0
-        result = await self._rerank_result(result, request.query)
+        result = await self._rerank_result(result, request.query, final_top_k=request.top_k)
         if cache_enabled and self._cacheable(request.query):
             cache_set(cache_key, result)
         return result
@@ -542,7 +567,13 @@ class HybridRagService:
         c = set(re.findall(r"[\u4e00-\u9fffA-Za-z0-9]{1,2}", content or ""))
         return len(q & c) / max(1, len(q))
 
-    async def _rerank_result(self, result: dict[str, Any], query: str) -> dict[str, Any]:
+    async def _rerank_result(
+        self,
+        result: dict[str, Any],
+        query: str,
+        *,
+        final_top_k: int | None = None,
+    ) -> dict[str, Any]:
         """Cross-encoder rerank after hybrid fusion, with lexical/offline fallback."""
         items = [item for item in result.get("items") or [] if isinstance(item, dict)]
         if len(items) < 2:
@@ -575,16 +606,32 @@ class HybridRagService:
         if scores is None:
             scores = [self._lexical_score(query, str(item.get("content") or "")) for item in items]
         for item, score in zip(items, scores):
-            item["rerank_score"] = round(float(score), 6)
+            # Entity lookup is deterministic: the visitor named a published POI and
+            # this document belongs to that POI.  Let its first source document stay
+            # ahead of a generic FAQ that happens to repeat more query words.  The
+            # bonus applies only to the primary entity document; subsequent chunks are
+            # still ordered by the cross-encoder or lexical fallback.
+            entity_rank = item.get("entity_rank")
+            entity_bonus = 2.0 if entity_rank == 1 else (0.25 if entity_rank else 0.0)
+            item["rerank_score"] = round(float(score) + entity_bonus, 6)
         result["items"] = sorted(items, key=lambda item: float(item.get("rerank_score") or 0), reverse=True)
-        result["rerank"] = {"enabled": True, "provider": provider, "model": config.RERANK_MODEL if provider == "api" else "lexical-overlap", "count": len(items)}
+        if final_top_k is not None:
+            result["items"] = result["items"][:final_top_k]
+        result["rerank"] = {
+            "enabled": True,
+            "provider": provider,
+            "model": config.RERANK_MODEL if provider == "api" else "lexical-overlap",
+            "count": len(items),
+            "returned": len(result["items"]),
+        }
         return result
 
     @staticmethod
-    def _result(raw: Any, *, backend: str) -> dict[str, Any]:
+    def _result(raw: Any, *, backend: str, candidate_top_k: int | None = None) -> dict[str, Any]:
+        limit = candidate_top_k or config.RAG_FINAL_TOP_K
         if isinstance(raw, dict) and any(key in raw for key in ("dense", "sparse", "entity", "structured")):
             channels = {key: list(raw.get(key) or []) for key in ("dense", "sparse", "entity", "structured")}
-            hits = fuse_hits(channels, top_k=config.RAG_FINAL_TOP_K)
+            hits = fuse_hits(channels, top_k=limit)
         else:
             # The PostgreSQL path already returns de-duplicated, ordered evidence, so it
             # is not re-fused - but its hits still carry content and a subject, and
@@ -592,7 +639,7 @@ class HybridRagService:
             # nothing in the only backend that is actually deployed today.
             hits = [
                 _as_hit(item, "postgres")
-                for item in list(raw or [])[: config.RAG_FINAL_TOP_K]
+                for item in list(raw or [])[:limit]
             ]
         items = [HybridRagService._item(hit) for hit in hits]
         conflicts = detect_conflicts(hits)
@@ -634,6 +681,7 @@ class HybridRagService:
             "metadata": hit.metadata,
             "score": hit.score,
             "retrieval": "+".join(hit.channels),
+            "entity_rank": hit.entity_rank,
         }
 
 

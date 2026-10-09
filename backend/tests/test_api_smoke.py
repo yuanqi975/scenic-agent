@@ -19,6 +19,18 @@ def test_public_endpoints_and_admin_authentication():
         assert response.json()["attractions"]
 
 
+def test_admin_logout_revokes_the_session_token():
+    with TestClient(app) as client:
+        token = client.post(
+            "/api/v1/admin/auth/login",
+            json={"email": "admin@jiuzhaigou.local", "password": "admin123456"},
+        ).json()["access_token"]
+        headers = {"Authorization": f"Bearer {token}"}
+        assert client.get("/api/v1/admin/dashboard", headers=headers).status_code == 200
+        assert client.post("/api/v1/admin/auth/logout", headers=headers).status_code == 200
+        assert client.get("/api/v1/admin/dashboard", headers=headers).status_code == 401
+
+
 def test_streaming_chat_uses_json_encoded_sse_payloads():
     with TestClient(app) as client:
         response = client.post("/api/v1/chat/stream", json={"message": "五花海开放时间和游玩建议"})

@@ -11,6 +11,9 @@ import json
 from pathlib import Path
 import sys
 
+from dotenv import load_dotenv
+
+load_dotenv(Path(__file__).resolve().parents[1] / ".env", override=False)
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "backend"))
 
 from app.services.evaluation import evaluate_questions  # noqa: E402

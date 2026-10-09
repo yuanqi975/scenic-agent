@@ -9,6 +9,8 @@ from __future__ import annotations
 
 import asyncio
 import json
+import hashlib
+import time
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -21,7 +23,9 @@ from ..core.config import (
     LLM_MODEL,
     LLM_TEMPERATURE,
     LLM_TIMEOUT_SECONDS,
+    LLM_CIRCUIT_COOLDOWN_SECONDS,
 )
+from ..core.cache import cache_get, cache_set
 
 
 @dataclass(slots=True)
@@ -110,6 +114,24 @@ class LLMClient:
         # commonly makes several turns (router, specialist and reviewer).
         self._http_client: httpx.AsyncClient | None = None
         self.call_count = 0
+        self.error_count = 0
+        self._circuit_until = 0.0
+        self._circuit_reason = ""
+        provider = f"{self.base_url}:{self.model}:{self.api_key}"
+        self._circuit_key = "llm:circuit:" + hashlib.sha256(provider.encode()).hexdigest()
+
+    def provider_status(self) -> dict[str, Any]:
+        """Shared provider failures plus per-process counters, without secrets."""
+        shared = cache_get(self._circuit_key)
+        open_circuit = self._circuit_until > time.monotonic() or bool(shared)
+        return {"configured": self.configured, "available": self.configured and not open_circuit, "circuit_open": open_circuit, "reason": (shared or {}).get("reason", self._circuit_reason if open_circuit else None), "calls_in_process": self.call_count, "errors_in_process": self.error_count}
+
+    async def _check_circuit(self):
+        if self._circuit_until > time.monotonic():
+            raise LLMUnavailable(f"模型服务熔断：{self._circuit_reason}")
+        shared = await asyncio.to_thread(cache_get, self._circuit_key)
+        if shared:
+            raise LLMUnavailable(f"模型服务熔断：{shared['reason']}")
 
     def _client(self) -> httpx.AsyncClient:
         if self._http_client is None:
@@ -135,6 +157,7 @@ class LLMClient:
         """One model turn. Raises :class:`LLMUnavailable` instead of returning junk."""
         if not self.configured:
             raise LLMUnavailable("LLM_BASE_URL/LLM_API_KEY 未配置")
+        await self._check_circuit()
 
         payload: dict[str, Any] = {
             "model": self.model,
@@ -147,9 +170,12 @@ class LLMClient:
         if response_format:
             payload["response_format"] = response_format
 
-        async with self._semaphore:
-            self.call_count += 1
-            try:
+        try:
+            # Include waiting for a model slot in the timeout, so queued visitors
+            # cannot wait indefinitely before their network timeout even starts.
+            async with asyncio.timeout(self.timeout), self._semaphore:
+                await self._check_circuit()
+                self.call_count += 1
                 response = await self._client().post(
                     f"{self.base_url}/chat/completions",
                     headers={"Authorization": f"Bearer {self.api_key}"},
@@ -157,11 +183,23 @@ class LLMClient:
                 )
                 response.raise_for_status()
                 body = response.json()
-            except httpx.HTTPStatusError as exc:
-                detail = (exc.response.text or "")[:800]
-                raise LLMUnavailable(f"{exc}; provider={detail}") from exc
-            except (httpx.HTTPError, ValueError) as exc:  # network, status or JSON failure
-                raise LLMUnavailable(str(exc)) from exc
+        except httpx.HTTPStatusError as exc:
+            self.error_count += 1
+            code = exc.response.status_code
+            if code in {401, 402, 403, 429} or code >= 500:
+                cooldown = max(1, LLM_CIRCUIT_COOLDOWN_SECONDS) if code in {401, 402, 403} else 2
+                reason = {401: "provider_401_auth", 402: "provider_402_balance", 403: "provider_403_forbidden", 429: "provider_429_quota"}.get(code, "provider_5xx")
+                self._circuit_until = time.monotonic() + cooldown
+                self._circuit_reason = reason
+                await asyncio.to_thread(cache_set, self._circuit_key, {"reason": reason}, cooldown)
+            detail = (exc.response.text or "")[:800]
+            raise LLMUnavailable(f"{exc}; provider={detail}") from exc
+        except TimeoutError as exc:
+            self.error_count += 1
+            raise LLMUnavailable("模型排队或调用超时") from exc
+        except (httpx.HTTPError, ValueError) as exc:
+            self.error_count += 1
+            raise LLMUnavailable(str(exc)) from exc
 
         try:
             choice = body["choices"][0]

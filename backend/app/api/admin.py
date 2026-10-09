@@ -15,7 +15,7 @@ from sqlalchemy import text
 from ..agents.registry import AGENT_CARDS, SPECIALIST_AGENTS, naming_contract
 from ..core.config import ENVIRONMENT, PARK_ID, resolved_agent_mode
 from ..core.db import engine
-from ..core.security import admin_from_token, authenticate, check_login_rate_limit, record_login_failure, reset_login_failures
+from ..core.security import admin_from_token, authenticate, check_login_rate_limit, record_login_failure, reset_login_failures, revoke_token
 from ..services import audit
 from ..services.chunking import split_document
 from ..tools.registry import permission_matrix, tool_names
@@ -52,7 +52,13 @@ def admin_login(request: LoginRequest, http_request: Request, response: Response
 
 
 @router.post("/admin/auth/logout")
-def admin_logout(response: Response):
+def admin_logout(response: Response, http_request: Request):
+    token = http_request.cookies.get("admin_session")
+    authorization = http_request.headers.get("authorization")
+    if not token and authorization and authorization.lower().startswith("bearer "):
+        token = authorization.split(" ", 1)[1]
+    if token:
+        revoke_token(token)
     response.delete_cookie("admin_session", path="/")
     return {"ok": True}
 

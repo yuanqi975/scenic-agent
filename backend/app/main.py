@@ -32,6 +32,7 @@ from .api.feedback import FeedbackRequest  # noqa: F401  (re-exported)
 from .core import config
 from .core import db_write
 from .core.cache import cache_get, cache_set, enforce_public_rate_limit, redis_client  # noqa: F401
+from .services.llm import get_client as get_llm_client
 from .core.db import (  # noqa: F401
     RUNTIME_TABLES,
     db_ready,
@@ -114,6 +115,7 @@ def health():
         "database": available,
         "park_id": PARK_ID,
         "llm_mode": LLM_MODE,
+        "llm_provider": get_llm_client().provider_status(),
         "agent_mode": mode,
         "multi_agent": mode != "single",
         "degraded": mode != "agent",

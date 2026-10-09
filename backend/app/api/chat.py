@@ -12,20 +12,22 @@ from __future__ import annotations
 
 import asyncio
 import json
+import contextlib
 from typing import Any, AsyncIterator
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request, HTTPException
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
 from ..core.cache import enforce_public_rate_limit
-from ..core.config import AGENT_REQUEST_TIMEOUT_SECONDS
+from ..core.config import AGENT_REQUEST_TIMEOUT_SECONDS, SSE_MAX_CONCURRENCY
 from ..core import db_write
 from ..services.conversations import conversation_history
 from ..services.orchestrator import answer_async
 from ..services import audit
 
 router = APIRouter(tags=["chat"])
+_stream_slots = asyncio.Semaphore(max(1, SSE_MAX_CONCURRENCY))
 
 #: Agent name -> visitor-facing progress text (kept for the legacy ``status`` event).
 AGENT_LABELS = {
@@ -83,15 +85,45 @@ def _legacy_status(event: str, data: dict[str, Any]) -> str | None:
     return None
 
 
+async def _answer_with_deadline(
+    message: str,
+    conversation_id: str | None,
+    *,
+    emitter=None,
+    mode: str | None = None,
+) -> dict[str, Any]:
+    """Bound the whole visitor request, including model queueing and tool loops."""
+    try:
+        return await asyncio.wait_for(
+            answer_async(message, conversation_id, emitter=emitter, mode=mode),
+            timeout=AGENT_REQUEST_TIMEOUT_SECONDS,
+        )
+    except asyncio.TimeoutError:
+        return {
+            "conversation_id": conversation_id,
+            "message": "模型服务响应超时，已返回降级结果，请稍后重试。",
+            "citations": [],
+            "intent": "unknown",
+            "status": "degraded",
+            "error": "request_timeout",
+            "mode": "fallback",
+            "degraded": True,
+        }
+
+
 @router.post("/chat/messages")
 async def chat(request: ChatRequest, _: None = Depends(enforce_public_rate_limit)):
     """Synchronous问答. Still works without a model: the rule brain takes over."""
-    return await answer_async(request.message, request.conversation_id, mode=request.mode)
+    return await _answer_with_deadline(request.message, request.conversation_id, mode=request.mode)
 
 
 @router.post("/chat/stream")
 async def chat_stream(request: ChatRequest, _: None = Depends(enforce_public_rate_limit)):
     """Server-sent events: progress, agent轨迹, citations, tokens, final result."""
+    try:
+        await asyncio.wait_for(_stream_slots.acquire(), timeout=0.1)
+    except asyncio.TimeoutError:
+        raise HTTPException(503, "流式连接繁忙，请稍后重试", headers={"Retry-After": "1"})
 
     async def events() -> AsyncIterator[str]:
         queue: asyncio.Queue[tuple[str, dict[str, Any]] | None] = asyncio.Queue()
@@ -107,7 +139,7 @@ async def chat_stream(request: ChatRequest, _: None = Depends(enforce_public_rat
 
         async def run() -> None:
             try:
-                result = await answer_async(
+                result = await _answer_with_deadline(
                     request.message,
                     request.conversation_id,
                     emitter=emit,
@@ -133,12 +165,15 @@ async def chat_stream(request: ChatRequest, _: None = Depends(enforce_public_rat
                 await queue.put(None)
 
         task = asyncio.create_task(run())
+        deadline = asyncio.get_running_loop().time() + AGENT_REQUEST_TIMEOUT_SECONDS + 5
         try:
             while True:
                 try:
-                    item = await asyncio.wait_for(queue.get(), timeout=AGENT_REQUEST_TIMEOUT_SECONDS + 5)
+                    remaining = max(0.001, deadline - asyncio.get_running_loop().time())
+                    item = await asyncio.wait_for(queue.get(), timeout=remaining)
                 except asyncio.TimeoutError:
-                    yield _sse("status", "处理超时，正在返回已有结果")
+                    yield _sse("citations", [])
+                    yield _sse("result", {"conversation_id": request.conversation_id, "message": "处理超时，请稍后重试", "citations": [], "status": "error", "error": "request_timeout", "degraded": True})
                     break
                 if item is None:
                     break
@@ -166,6 +201,9 @@ async def chat_stream(request: ChatRequest, _: None = Depends(enforce_public_rat
         finally:
             if not task.done():
                 task.cancel()
+            with contextlib.suppress(asyncio.CancelledError):
+                await task
+            _stream_slots.release()
 
     return StreamingResponse(
         events(),

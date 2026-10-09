@@ -70,8 +70,9 @@ LLM_BASE_URL = os.getenv("LLM_BASE_URL", "").rstrip("/")
 LLM_API_KEY = os.getenv("LLM_API_KEY", "")
 LLM_MODEL = os.getenv("LLM_MODEL", "gpt-5.6-terra")
 LLM_TEMPERATURE = _float("LLM_TEMPERATURE", "0.2")
-LLM_MAX_CONCURRENCY = _int("LLM_MAX_CONCURRENCY", "8")
+LLM_MAX_CONCURRENCY = _int("LLM_MAX_CONCURRENCY", "2")
 LLM_TIMEOUT_SECONDS = _float("LLM_TIMEOUT_SECONDS", "30")
+LLM_CIRCUIT_COOLDOWN_SECONDS = _int("LLM_CIRCUIT_COOLDOWN_SECONDS", "60")
 
 # --------------------------------------------------------------------------- embeddings
 EMBEDDING_BASE_URL = os.getenv("EMBEDDING_BASE_URL", "").rstrip("/")
@@ -96,16 +97,25 @@ MILVUS_URI = os.getenv("MILVUS_URI", "http://localhost:19530").rstrip("/")
 MILVUS_TOKEN = os.getenv("MILVUS_TOKEN", "")
 MILVUS_COLLECTION = os.getenv("MILVUS_COLLECTION", "scenic_knowledge")
 MILVUS_TIMEOUT_SECONDS = _float("MILVUS_TIMEOUT_SECONDS", "3")
-# Keep a broad enough candidate pool for hybrid recall, but avoid sending dozens
-# of duplicate candidates through Milvus and rerank for every visitor turn.
-RAG_DENSE_TOP_K = _int("RAG_DENSE_TOP_K", "16")
-RAG_SPARSE_TOP_K = _int("RAG_SPARSE_TOP_K", "16")
-RAG_ENTITY_TOP_K = _int("RAG_ENTITY_TOP_K", "10")
-RAG_MAX_QUERY_VARIANTS = _int("RAG_MAX_QUERY_VARIANTS", "2")
+# Retrieval needs a wider candidate pool than the visitor-facing top-k.  RRF and the
+# reranker cannot recover a relevant document which was cut before fusion, especially
+# for park-level questions whose evidence shares one source id.
+RAG_DENSE_TOP_K = _int("RAG_DENSE_TOP_K", "40")
+RAG_SPARSE_TOP_K = _int("RAG_SPARSE_TOP_K", "40")
+RAG_ENTITY_TOP_K = _int("RAG_ENTITY_TOP_K", "40")
+RAG_MAX_QUERY_VARIANTS = _int("RAG_MAX_QUERY_VARIANTS", "4")
+RAG_RERANK_CANDIDATES = _int("RAG_RERANK_CANDIDATES", "40")
 
 # --------------------------------------------------------------------------- cache / limits
 CACHE_TTL_SECONDS = _int("CACHE_TTL_SECONDS", "300")
 RATE_LIMIT_PER_MINUTE = _int("RATE_LIMIT_PER_MINUTE", "60")
+RATE_LIMIT_IP_PER_MINUTE = _int("RATE_LIMIT_IP_PER_MINUTE", "600")
+RATE_LIMIT_RECOMMEND_PER_MINUTE = _int("RATE_LIMIT_RECOMMEND_PER_MINUTE", str(min(30, RATE_LIMIT_PER_MINUTE)))
+RATE_LIMIT_STREAM_PER_MINUTE = _int("RATE_LIMIT_STREAM_PER_MINUTE", str(RATE_LIMIT_PER_MINUTE))
+SSE_MAX_CONCURRENCY = _int("SSE_MAX_CONCURRENCY", "100")
+DB_POOL_SIZE = _int("DB_POOL_SIZE", "10")
+DB_MAX_OVERFLOW = _int("DB_MAX_OVERFLOW", "20")
+DB_POOL_TIMEOUT_SECONDS = _float("DB_POOL_TIMEOUT_SECONDS", "5")
 ADMIN_LOGIN_RATE_LIMIT = _int("ADMIN_LOGIN_RATE_LIMIT", "8")
 ADMIN_LOGIN_WINDOW_SECONDS = _int("ADMIN_LOGIN_WINDOW_SECONDS", "300")
 CORS_ORIGINS = tuple(

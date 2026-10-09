@@ -1,0 +1,2 @@
+Method,Name,Error,Occurrences,First Seen,Last Seen
+POST,POST chat agent,CatchResponseError('business degraded; degraded=True'),12,2026-10-09T09:16:58Z,2026-10-09T09:18:32Z

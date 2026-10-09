@@ -20,7 +20,9 @@ const messages = ref<Message[]>([
 ])
 const input = ref('')
 const loading = ref(false)
-const conversationId = ref<string>(localStorage.getItem('conversation_id') || undefined)
+// Keep the active conversation only in memory. A fresh page load starts with
+// the welcome message instead of restoring a previous browser conversation.
+const conversationId = ref<string>()
 const citations = ref<any[]>([])
 const attractions = ref<Attraction[]>([])
 const notices = ref<any[]>([])
@@ -30,7 +32,8 @@ const feedbackStatus = ref('')
 const feedbackError = ref('')
 // Admin authentication is an HttpOnly cookie. Keep only a non-secret UI flag.
 const adminToken = ref('')
-const adminEmail = ref('')
+// Keep the identifier between unlocks; never keep the password.
+const adminEmail = ref(localStorage.getItem('admin_email') || '')
 const adminPassword = ref('')
 const dashboard = ref<any>()
 const candidates = ref<any[]>([])
@@ -150,27 +153,12 @@ async function send() {
       if (event === 'result') {
         messages.value.at(-1)!.status = ''
         conversationId.value = data.conversation_id
-        if (conversationId.value) localStorage.setItem('conversation_id', conversationId.value)
       }
     }, conversationId.value)
   } catch (error: any) {
     messages.value.at(-1)!.content = `请求失败：${error.message || '服务暂不可用'}`
   } finally {
     loading.value = false
-  }
-}
-
-async function loadConversationHistory() {
-  if (!conversationId.value) return
-  try {
-    const history = await api(`/conversations/${encodeURIComponent(conversationId.value)}`)
-    const storedMessages = (history.messages || [])
-      .filter((item: any) => item.role === 'user' || item.role === 'assistant')
-      .map((item: any) => ({ role: item.role, content: item.content, citations: item.citations || [] }))
-    if (storedMessages.length) messages.value = storedMessages
-  } catch {
-    localStorage.removeItem('conversation_id')
-    conversationId.value = undefined
   }
 }
 
@@ -268,13 +256,35 @@ async function login() {
       method: 'POST',
       body: JSON.stringify({ email: adminEmail.value, password: adminPassword.value }),
     })
+    localStorage.setItem('admin_email', adminEmail.value.trim())
     adminToken.value = 'cookie'
+    adminPassword.value = ''
     await loadAdmin()
   } catch (error: any) {
     adminError.value = error.message || '登录失败，请检查账号和密码。'
   } finally {
     adminLoading.value = false
   }
+}
+
+// Lock the admin area whenever the SPA leaves it. Clearing the UI state alone
+// would only hide the page, so also clear the browser session cookie through
+// the backend. Returning to the admin section then requires a fresh password.
+function selectSection(next: (typeof navItems)[number]['id']) {
+  if (active.value === 'admin' && next !== 'admin') {
+    const hadAdminSession = adminToken.value === 'cookie'
+    adminToken.value = ''
+    adminPassword.value = ''
+    dashboard.value = undefined
+    candidates.value = []
+    adminError.value = ''
+    reviewNotice.value = ''
+    reviewError.value = ''
+    if (hadAdminSession) {
+      void api('/admin/auth/logout', { method: 'POST' }).catch(() => undefined)
+    }
+  }
+  active.value = next
 }
 
 async function loadAdmin() {
@@ -314,12 +324,11 @@ async function review(id: string, action: 'approve' | 'reject') {
 }
 
 onMounted(() => {
-  loadConversationHistory()
   loadAttractions()
   loadNotices()
   loadWeather()
-  // Probe the HttpOnly admin session; a 401 simply leaves the login form visible.
-  loadAdmin()
+  // Do not probe or restore an admin session in the background. Every entry
+  // into the admin section is an explicit password unlock.
 })
 </script>
 
@@ -327,7 +336,7 @@ onMounted(() => {
   <div class="shell">
     <header class="topbar">
       <div class="brand"><span class="brand-mark">JZ</span><div><strong>九寨沟景区</strong><small>智能服务与运营中心</small></div></div>
-      <nav aria-label="主导航"><button v-for="item in navItems" :key="item.id" :class="{ active: active === item.id }" @click="active = item.id">{{ item.label }}</button></nav>
+      <nav aria-label="主导航"><button v-for="item in navItems" :key="item.id" :class="{ active: active === item.id }" @click="selectSection(item.id)">{{ item.label }}</button></nav>
       <span class="status-dot">● 在线</span>
     </header>
 

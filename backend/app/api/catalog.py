@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import json
+import hashlib
+from datetime import date
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel, Field
 
-from ..core.cache import enforce_public_rate_limit
+from ..core.cache import cache_get, cache_set, enforce_public_rate_limit
 from ..core.config import PARK_ID
 from ..core.db import engine, payload_rows
 from ..services.orchestrator import build_recommendation
@@ -33,12 +35,19 @@ def attractions(
     limit: int = Query(20, ge=1, le=100),
     offset: int = Query(0, ge=0),
 ):
+    key = f"public:catalog:{PARK_ID}:" + hashlib.sha256(json.dumps([q, category, limit, offset], ensure_ascii=False).encode()).hexdigest()
+    cached = cache_get(key)
+    if cached is not None:
+        return cached
     items = payload_rows("attractions", 100, 0)
     if q:
         items = [item for item in items if q.lower() in json.dumps(item, ensure_ascii=False).lower()]
     if category:
         items = [item for item in items if item.get("category") == category]
-    return {"items": items[offset : offset + limit], "total": len(items)}
+    result = {"items": items[offset : offset + limit], "total": len(items)}
+    if items:
+        cache_set(key, result, ttl=15)
+    return result
 
 
 @router.get("/attractions/{attraction_id}")
@@ -78,6 +87,10 @@ def recommendations(request: RecommendationRequest, _: None = Depends(enforce_pu
     Kept as a standalone endpoint for the existing UI; the same algorithm is exposed to
     agents as the ``calculate_route`` tool, so both paths always agree.
     """
+    key = f"public:route:{PARK_ID}:{date.today()}:" + hashlib.sha256(json.dumps(request.model_dump(), sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+    cached = cache_get(key)
+    if cached is not None:
+        return cached
     result = build_recommendation(
         duration_minutes=request.duration_minutes,
         groups=request.groups,
@@ -110,4 +123,6 @@ def recommendations(request: RecommendationRequest, _: None = Depends(enforce_pu
                 groups=request.groups,
             )
         )
+    if result.get("attractions"):
+        cache_set(key, result, ttl=15)
     return result

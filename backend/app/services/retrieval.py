@@ -52,10 +52,18 @@ def _authority(source_type: str | None) -> str:
     return SOURCE_AUTHORITY.get(source_type or "", "reference")
 
 
-def embed_query(message: str, *, client: Any | None = None) -> str | None:
-    """Return a real query vector, or ``None`` when no embedding provider is set."""
+def embed_queries(messages: list[str], *, client: Any | None = None) -> list[str | None]:
+    """Embed one retrieval batch in a single provider round-trip.
+
+    Multi-Query requests otherwise make one blocking HTTP call per query variant.
+    OpenAI-compatible APIs accept an input array, so preserve input order and return
+    a ``None`` placeholder for every input when the provider is unavailable.
+    """
+    clean = [str(message or "") for message in messages]
+    if not clean:
+        return []
     if not (EMBEDDING_BASE_URL and EMBEDDING_API_KEY):
-        return None
+        return [None] * len(clean)
     try:
         import httpx
 
@@ -63,13 +71,25 @@ def embed_query(message: str, *, client: Any | None = None) -> str | None:
         response = request(
             f"{EMBEDDING_BASE_URL}/embeddings",
             headers={"Authorization": f"Bearer {EMBEDDING_API_KEY}"},
-            json={"model": EMBEDDING_MODEL, "input": message, "dimensions": EMBEDDING_DIMENSION},
+            json={"model": EMBEDDING_MODEL, "input": clean, "dimensions": EMBEDDING_DIMENSION},
             timeout=12,
         )
         response.raise_for_status()
-        return str(response.json()["data"][0]["embedding"])
+        vectors: list[str | None] = [None] * len(clean)
+        for fallback_index, item in enumerate(response.json().get("data") or []):
+            if not isinstance(item, dict) or "embedding" not in item:
+                continue
+            index = item.get("index", fallback_index)
+            if isinstance(index, int) and 0 <= index < len(vectors):
+                vectors[index] = str(item["embedding"])
+        return vectors
     except Exception:
-        return None
+        return [None] * len(clean)
+
+
+def embed_query(message: str, *, client: Any | None = None) -> str | None:
+    """Return one real query vector, retained for existing callers and tests."""
+    return embed_queries([message], client=client)[0]
 
 
 def known_entity_ids(
@@ -103,7 +123,13 @@ def known_entity_ids(
     return list(dict.fromkeys(found))
 
 
-def _row_to_item(row: Any, method: str, distance: float | None = None) -> dict[str, Any]:
+def _row_to_item(
+    row: Any,
+    method: str,
+    distance: float | None = None,
+    *,
+    entity_rank: int | None = None,
+) -> dict[str, Any]:
     if isinstance(row, dict):
         document_id, source_type, source_id, content, metadata = (
             row.get("document_id"),
@@ -124,6 +150,10 @@ def _row_to_item(row: Any, method: str, distance: float | None = None) -> dict[s
         "distance": distance,
         "authority": _authority(source_type),
         "title": (metadata or {}).get("title") if isinstance(metadata, dict) else None,
+        # An exact attraction/facility lookup is stronger than lexical coincidence.
+        # Keep its source-local rank so the hybrid reranker can prioritise the primary
+        # entity document without promoting every secondary document for that entity.
+        "entity_rank": entity_rank,
     }
 
 
@@ -211,13 +241,17 @@ def retrieve(
             return []
 
     # Layer 1 -- published POI names mentioned in the question.
+    entity_limit = max(top_k * 2, RETRIEVAL_TOP_K)
     for entity_id in entity_ids[:top_k]:
         entity_rows = run(
             """SELECT document_id, source_type, source_id, content, metadata FROM documents
                WHERE park_id=:park_id AND source_id=:source_id ORDER BY document_id LIMIT :limit""",
-            {"park_id": PARK_ID, "source_id": entity_id, "limit": top_k},
+            {"park_id": PARK_ID, "source_id": entity_id, "limit": entity_limit},
         )
-        candidates.extend(_row_to_item(row, "entity") for row in entity_rows)
+        candidates.extend(
+            _row_to_item(row, "entity", entity_rank=index)
+            for index, row in enumerate(entity_rows, start=1)
+        )
 
     # Layer 1b -- time-sensitive operating facts.  These are deliberately kept
     # separate from lexical recall: an announcement can be textually relevant but
@@ -228,7 +262,7 @@ def retrieve(
                WHERE park_id=:park_id AND (source_type='notice' OR metadata->>'document_kind'='notice')
                  AND (content ILIKE :q OR content ILIKE :q2 OR content ILIKE :q3)
                ORDER BY (metadata->>'status' = 'active') DESC, updated_at DESC LIMIT :limit""",
-            {"park_id": PARK_ID, "q": f"%{message}%", "q2": "%开放%", "q3": "%预约%", "limit": max(top_k, 5)},
+            {"park_id": PARK_ID, "q": f"%{message}%", "q2": "%开放%", "q3": "%预约%", "limit": max(top_k * 2, 10)},
         )
         candidates.extend(_row_to_item(row, "structured") for row in notice_rows)
 
@@ -253,7 +287,7 @@ def retrieve(
         """SELECT document_id, source_type, source_id, content, metadata FROM documents
            WHERE park_id=:park_id AND to_tsvector('simple', content) @@ plainto_tsquery('simple', :message)
            ORDER BY updated_at DESC LIMIT :limit""",
-        {"park_id": PARK_ID, "message": message, "limit": top_k},
+        {"park_id": PARK_ID, "message": message, "limit": max(top_k * 2, RETRIEVAL_TOP_K)},
     )
     candidates.extend(_row_to_item(row, "fts") for row in fts_rows)
 
@@ -264,16 +298,20 @@ def retrieve(
             """SELECT document_id, source_type, source_id, content, metadata FROM documents
                WHERE park_id=:park_id AND (content ILIKE :q OR content ILIKE :q2)
                ORDER BY updated_at DESC LIMIT :limit""",
-            {"park_id": PARK_ID, "q": f"%{message}%", "q2": f"%{first_token}%", "limit": top_k * 2},
+            {"park_id": PARK_ID, "q": f"%{message}%", "q2": f"%{first_token}%", "limit": max(top_k * 4, RETRIEVAL_TOP_K)},
         )
         candidates.extend(_row_to_item(row, "like") for row in like_rows)
 
     # Vector hits carry a distance; keep the threshold only where it is meaningful.
     has_vector = any(item["retrieval"] == "vector" for item in candidates)
+    # A question naming an attraction should stay diverse across sources.  A park-wide
+    # question, however, legitimately needs more than two documents from the same
+    # park source before the reranker can locate the requested policy/topic.
+    source_cap = RETRIEVAL_MAX_PER_SOURCE if entity_ids else max(RETRIEVAL_MAX_PER_SOURCE, top_k)
     items = select_diverse(
         candidates,
         top_k=top_k,
-        max_per_source=RETRIEVAL_MAX_PER_SOURCE,
+        max_per_source=source_cap,
         max_distance=RETRIEVAL_MAX_DISTANCE if has_vector else None,
     )
     if use_cache:

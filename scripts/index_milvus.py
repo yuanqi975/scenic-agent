@@ -14,6 +14,9 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from dotenv import load_dotenv
+
+load_dotenv(Path(__file__).resolve().parents[1] / ".env", override=False)
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "backend"))
 from app.services.chunking import split_document  # noqa: E402
 

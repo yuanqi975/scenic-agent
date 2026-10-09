@@ -1,0 +1,128 @@
+{
+  "stats": [
+    {
+      "name": "POST chat cached",
+      "requests": 1529,
+      "failures": 1392,
+      "rps": 12.808661637204752,
+      "average_ms": 10.118231981673093,
+      "p95_ms": 23,
+      "p99_ms": 46
+    },
+    {
+      "name": "GET attractions",
+      "requests": 2110,
+      "failures": 0,
+      "rps": 17.67578551635188,
+      "average_ms": 11.177055545114543,
+      "p95_ms": 18,
+      "p99_ms": 26
+    },
+    {
+      "name": "POST chat stream",
+      "requests": 494,
+      "failures": 323,
+      "rps": 4.138311869705133,
+      "average_ms": 14.871268623692563,
+      "p95_ms": 35,
+      "p99_ms": 60
+    },
+    {
+      "name": "POST recommendations",
+      "requests": 1043,
+      "failures": 953,
+      "rps": 8.737366963770148,
+      "average_ms": 9.206963279398385,
+      "p95_ms": 17,
+      "p99_ms": 33
+    },
+    {
+      "name": "POST chat structured",
+      "requests": 512,
+      "failures": 469,
+      "rps": 4.289100561313822,
+      "average_ms": 9.578939062805603,
+      "p95_ms": 21,
+      "p99_ms": 41
+    },
+    {
+      "name": "Aggregated",
+      "requests": 5688,
+      "failures": 3137,
+      "rps": 47.64922654834574,
+      "average_ms": 10.708166332778298,
+      "p95_ms": 22,
+      "p99_ms": 38
+    }
+  ],
+  "observed": {
+    "POST chat cached": {
+      "http": {
+        "200": 137,
+        "429": 1392
+      },
+      "business": {
+        "success": 137
+      },
+      "success_ms": {
+        "count": 137,
+        "average": 29.479711678411885,
+        "p95": 53.96179998933803
+      },
+      "sse_complete": 0,
+      "cache_hits": 134,
+      "agent_runs": 0
+    },
+    "POST chat stream": {
+      "http": {
+        "200": 171,
+        "429": 323
+      },
+      "business": {
+        "success": 171
+      },
+      "success_ms": {
+        "count": 171,
+        "average": 27.302639767403676,
+        "p95": 45.874100003857166
+      },
+      "sse_complete": 171,
+      "cache_hits": 167,
+      "agent_runs": 0
+    },
+    "POST recommendations": {
+      "http": {
+        "200": 90,
+        "429": 953
+      },
+      "business": {
+        "success": 90
+      },
+      "success_ms": {
+        "count": 90,
+        "average": 16.27605000038683,
+        "p95": 32.68370000296272
+      },
+      "sse_complete": 0,
+      "cache_hits": 0,
+      "agent_runs": 0
+    },
+    "POST chat structured": {
+      "http": {
+        "200": 43,
+        "429": 469
+      },
+      "business": {
+        "success": 43
+      },
+      "success_ms": {
+        "count": 43,
+        "average": 26.015486046035644,
+        "p95": 47.8958000021521
+      },
+      "sse_complete": 0,
+      "cache_hits": 40,
+      "agent_runs": 0
+    }
+  }
+}

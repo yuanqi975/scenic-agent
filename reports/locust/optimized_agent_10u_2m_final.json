@@ -1,0 +1,41 @@
+{
+  "stats": [
+    {
+      "name": "POST chat agent",
+      "requests": 373,
+      "failures": 353,
+      "rps": 3.1068503654813675,
+      "average_ms": 1691.7391882036768,
+      "p95_ms": 4400,
+      "p99_ms": 38000
+    },
+    {
+      "name": "Aggregated",
+      "requests": 373,
+      "failures": 353,
+      "rps": 3.1068503654813675,
+      "average_ms": 1691.7391882036768,
+      "p95_ms": 4400,
+      "p99_ms": 38000
+    }
+  ],
+  "observed": {
+    "POST chat agent": {
+      "http": {
+        "200": 373
+      },
+      "business": {
+        "success": 20,
+        "degraded": 353
+      },
+      "success_ms": {
+        "count": 20,
+        "average": 21426.95334500313,
+        "p95": 42608.98590000579
+      },
+      "sse_complete": 0,
+      "cache_hits": 0,
+      "agent_runs": 20
+    }
+  }
+}

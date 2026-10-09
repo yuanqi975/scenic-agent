@@ -1,0 +1,9 @@
+# Local capacity measurement only; never use this override for production.
+# docker compose -f docker-compose.yml -f loadtests/compose.throughput.yml up -d backend
+services:
+  backend:
+    environment:
+      RATE_LIMIT_PER_MINUTE: "6000"
+      RATE_LIMIT_IP_PER_MINUTE: "6000"
+      RATE_LIMIT_RECOMMEND_PER_MINUTE: "6000"
+      RATE_LIMIT_STREAM_PER_MINUTE: "6000"

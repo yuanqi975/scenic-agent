@@ -77,11 +77,23 @@ services:
     build:
       context: .
       dockerfile: backend/Dockerfile
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "${WEB_CONCURRENCY:-2}"]
     environment:
       DATABASE_URL: ${DATABASE_URL:-postgresql+psycopg://postgres:123456@postgres:5432/scenic_agent}
       ENVIRONMENT: ${ENVIRONMENT:-development}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173}
       REDIS_URL: redis://redis:6379/0
+      RATE_LIMIT_PER_MINUTE: ${RATE_LIMIT_PER_MINUTE:-60}
+      RATE_LIMIT_IP_PER_MINUTE: ${RATE_LIMIT_IP_PER_MINUTE:-600}
+      RATE_LIMIT_RECOMMEND_PER_MINUTE: ${RATE_LIMIT_RECOMMEND_PER_MINUTE:-30}
+      RATE_LIMIT_STREAM_PER_MINUTE: ${RATE_LIMIT_STREAM_PER_MINUTE:-60}
+      SSE_MAX_CONCURRENCY: ${SSE_MAX_CONCURRENCY:-100}
+      LLM_MAX_CONCURRENCY: ${LLM_MAX_CONCURRENCY:-2}
+      LLM_TIMEOUT_SECONDS: ${LLM_TIMEOUT_SECONDS:-30}
+      LLM_CIRCUIT_COOLDOWN_SECONDS: ${LLM_CIRCUIT_COOLDOWN_SECONDS:-60}
+      DB_POOL_SIZE: ${DB_POOL_SIZE:-10}
+      DB_MAX_OVERFLOW: ${DB_MAX_OVERFLOW:-20}
+      DB_POOL_TIMEOUT_SECONDS: ${DB_POOL_TIMEOUT_SECONDS:-5}
       ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@jiuzhaigou.local}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123456}
       JWT_SECRET: ${JWT_SECRET:-change-this-secret-in-production}

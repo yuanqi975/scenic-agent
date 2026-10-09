@@ -1,0 +1,2 @@
+Method,Name,Error,Occurrences,First Seen,Last Seen
+POST,POST chat agent,CatchResponseError('HTTP 0'),6,2026-10-09T08:55:19Z,2026-10-09T08:55:22Z

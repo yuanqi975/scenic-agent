@@ -18,6 +18,7 @@ import asyncio
 import functools
 import inspect
 import sys
+import time
 from pathlib import Path
 
 import pytest
@@ -74,6 +75,14 @@ def database_is_up() -> bool:
 def _degrade_without_database(monkeypatch):
     """Make the degraded path deterministic: no database, no probing, no waiting."""
     if database_is_up():
+        from app.core import db
+
+        # Failure-injection tests mutate these circuit-breaker globals. Restore
+        # readiness per test so subsequent live API checks see the real database.
+        monkeypatch.setattr(db, "_DB_AVAILABLE", True)
+        monkeypatch.setattr(db, "_DB_FAILURES", 0)
+        monkeypatch.setattr(db, "_DB_FAILED_AT", 0.0)
+        monkeypatch.setattr(db, "_DB_PROBED_AT", time.monotonic())
         yield
         return
     from app.core import db
@@ -81,6 +90,16 @@ def _degrade_without_database(monkeypatch):
     monkeypatch.setattr(db, "database_available", lambda: False, raising=False)
     monkeypatch.setattr(db, "enabled", lambda: False, raising=False)
     monkeypatch.setattr(db, "db_ready", lambda: False, raising=False)
+    yield
+
+
+@pytest.fixture(autouse=True)
+def _isolate_public_cache():
+    from app.core import cache
+
+    for key in list(cache._memory_cache):
+        if key.startswith("public:"):
+            cache._memory_cache.pop(key, None)
     yield
 
 

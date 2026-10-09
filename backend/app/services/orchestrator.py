@@ -16,7 +16,9 @@ Two guarantees hold in every mode:
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import time
+import unicodedata
 from typing import Any
 
 from ..agents.critic import critic_agent
@@ -26,6 +28,7 @@ from ..agents.runtime import RunContext, run_agent
 from ..agents.schemas import AgentResult, RunTrace
 from ..agents.supervisor import run_supervisor
 from ..core import config
+from ..core.cache import cache_get, cache_set
 from ..core.db import payload_rows
 from ..core.errors import BudgetExceeded
 from ..services import audit
@@ -673,6 +676,35 @@ async def compose_legacy_answer(context: RunContext) -> str:
     return ""
 
 
+def _public_direct_answer(message: str, resolved_message: str, intent: str):
+    """Run synchronous public lookups off the event loop; cache only static answers."""
+    eligible = intent != "feedback" and not any(word in resolved_message for word in ("今天", "现在", "当前", "实时", "公告", "关闭", "闭园", "天气", "余票", "售罄", "限流", "反馈"))
+    normalized = " ".join(unicodedata.normalize("NFKC", resolved_message).split())
+    key = f"public:answer:{config.PARK_ID}:" + hashlib.sha256(normalized.encode()).hexdigest()
+    cached = cache_get(key) if eligible else None
+    if cached is not None:
+        return (cached["answer"], cached["citations"]), True
+    direct = None
+    if intent == "smalltalk" or is_smalltalk(message):
+        direct = (_smalltalk_answer(message), [])
+    else:
+        for lookup, query in (
+            (_park_intro_answer, resolved_message), (_catalog_answer, message),
+            (_known_combination_answer, resolved_message), (_ticket_reservation_answer, resolved_message),
+            (_rain_child_safety_answer, resolved_message), (_shuttle_reference_answer, resolved_message),
+            (_attraction_detail_answer, resolved_message), (_hazard_realtime_answer, resolved_message),
+            (_realtime_boundary_answer, resolved_message),
+        ):
+            direct = lookup(query)
+            if direct is not None:
+                break
+        if direct is None and intent != "feedback":
+            direct = _focused_direct_answer(resolved_message) or _facility_answer(message)
+    if eligible and direct is not None:
+        cache_set(key, {"answer": direct[0], "citations": direct[1]}, ttl=15)
+    return direct, False
+
+
 async def answer_async(
     message: str,
     conversation_id: str | None = None,
@@ -735,33 +767,10 @@ async def answer_async(
     error: str | None = None
     execution_started = time.perf_counter()
     try:
-        direct = None
-        if context.intent == "smalltalk" or is_smalltalk(message):
-            direct = (_smalltalk_answer(message), [])
-        elif (intro := _park_intro_answer(resolved_message)) is not None:
-            direct = intro
-        elif (catalog := _catalog_answer(message)) is not None:
-            direct = catalog
-        elif (combined := _known_combination_answer(resolved_message)) is not None:
-            direct = combined
-        elif (ticket := _ticket_reservation_answer(resolved_message)) is not None:
-            direct = ticket
-        elif (safety := _rain_child_safety_answer(resolved_message)) is not None:
-            direct = safety
-        elif (shuttle := _shuttle_reference_answer(resolved_message)) is not None:
-            direct = shuttle
-        elif (detail := _attraction_detail_answer(resolved_message)) is not None:
-            direct = detail
-        elif (hazard := _hazard_realtime_answer(resolved_message)) is not None:
-            direct = hazard
-        elif (live := _realtime_boundary_answer(resolved_message)) is not None:
-            direct = live
-        elif context.intent != "feedback" and (focused := _focused_direct_answer(resolved_message)) is not None:
-            direct = focused
-        elif context.intent == "feedback" and (approved_feedback := await _approved_feedback_answer(message)) is not None:
-            direct = approved_feedback
-        elif context.intent != "feedback" and (facility := _facility_answer(message)) is not None:
-            direct = facility
+        direct, cache_hit = await asyncio.to_thread(_public_direct_answer, message, resolved_message, context.intent)
+        if direct is None and context.intent == "feedback":
+            direct = await _approved_feedback_answer(message)
+        context.artifacts["cache_hit"] = cache_hit
 
         if direct is not None:
             answer, citations, results = direct[0], direct[1], []
@@ -819,6 +828,7 @@ async def answer_async(
         "tasks": context.artifacts.get("tasks", []),
         "delegation_rounds": context.artifacts.get("delegation_rounds", 0),
         "timings": timings,
+        "cache_hit": bool(context.artifacts.get("cache_hit")),
     }
     trace.agent_chain = context.agent_chain
     trace.final_answer = answer
@@ -856,6 +866,7 @@ async def answer_async(
         "plan": trace.plan,
         "agent_chain": chain,
         "agents": results,
+        "cache_hit": bool(context.artifacts.get("cache_hit")),
         "tool_calls": context.budget.tool_calls,
         "steps": context.budget.steps,
         "timings": timings,
